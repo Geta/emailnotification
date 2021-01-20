@@ -1,6 +1,7 @@
 # Geta Email Notification
 
-![](http://tc.geta.no/app/rest/builds/buildType:(id:TeamFrederik_EmailNotification_EmailNotificationDebug)/statusIcon)
+* Master<br>
+![](http://tc.geta.no/app/rest/builds/buildType:(id:GetaPackages_GetaEmailNotification_00ci),branch:master/statusIcon)
 
 ## Description
 This project contains three providers for sending emails. The default is using normal SMTP, in addition we have one for SendGrid, one for Postmark, one for MailGun and one for Amazon SES. All are using the same interface and can easily be switched in and out as required.
