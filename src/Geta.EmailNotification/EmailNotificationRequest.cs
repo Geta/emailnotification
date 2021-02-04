@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using MimeKit;
+using AttachmentCollection = MimeKit.AttachmentCollection;
 
 namespace Geta.EmailNotification
 {
@@ -10,38 +11,38 @@ namespace Geta.EmailNotification
     {
         public EmailNotificationRequest()
         {
-            this.Attachments = new List<Attachment>();
-            this.To = new MailAddressCollection();
-            this.Cc = new MailAddressCollection();
-            this.Bcc = new MailAddressCollection();
-            this.ReplyTo = new MailAddressCollection();
+            this.Attachments = new AttachmentCollection();
+            this.To = new List<MailboxAddress>();
+            this.Cc = new List<MailboxAddress>();
+            this.Bcc = new List<MailboxAddress>();
+            this.ReplyTo = new List<MailboxAddress>();
             this.ViewData = new ViewDataDictionary(this);
         }
 
         /// <summary>
         /// From email address
         /// </summary>
-        public MailAddress From { get; set; }
+        public MailboxAddress From { get; set; }
 
         /// <summary>
         /// To email address'
         /// </summary>
-        public MailAddressCollection To { get; set; }
+        public List<MailboxAddress> To { get; set; }
 
         /// <summary>
         /// Copy email address'
         /// </summary>
-        public MailAddressCollection Cc { get; set; }
+        public List<MailboxAddress> Cc { get; set; }
 
         /// <summary>
         /// Blind copy email address'
         /// </summary>
-        public MailAddressCollection Bcc { get; set; }
+        public List<MailboxAddress> Bcc { get; set; }
 
         /// <summary>
         /// Reply to email address'
         /// </summary>
-        public MailAddressCollection ReplyTo { get; set; }
+        public List<MailboxAddress> ReplyTo { get; set; }
 
         public string Subject { get; set; }
 
@@ -74,6 +75,6 @@ namespace Geta.EmailNotification
         /// <summary>
         /// Attachments for this email message
         /// </summary>
-        public List<Attachment> Attachments { get; set; }
+        public AttachmentCollection Attachments { get; set; }
     }
 }

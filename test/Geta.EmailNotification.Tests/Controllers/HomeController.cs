@@ -37,7 +37,12 @@ namespace Geta.EmailNotification.Tests.Controllers
                 var stream = StreamHelper.GenerateStreamFromString("This is a test text.");
 
                 var attachment = new Attachment(stream, "test_attachment.txt", "text/plain");
-
+                var a2 = new MimePart ("image", "gif") {
+                    Content = new MimeContent (File.OpenRead (path)),
+                    ContentDisposition = new ContentDisposition (ContentDisposition.Attachment),
+                    ContentTransferEncoding = ContentEncoding.Base64,
+                    FileName = Path.GetFileName (path)
+                };
                 var testEmail = new EmailNotificationRequestBuilder()
                     .WithTo("")
                     .WithFrom("")

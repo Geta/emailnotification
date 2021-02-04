@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using MimeKit;
 
 namespace Geta.EmailNotification
 {
@@ -36,12 +38,12 @@ namespace Geta.EmailNotification
             return _emailClient.Send(request);
         }
 
-        private MailAddressCollection WhiteList(MailAddressCollection addressCollection)
+        private List<MailboxAddress> WhiteList(IEnumerable<MailboxAddress> addressCollection)
         {
-            var result = new MailAddressCollection();
+            var result = new List<MailboxAddress>();
             foreach (var address in addressCollection)
             {
-                if (InWhitelist(address.Address))
+                if (InWhitelist(address.Name))
                 {
                     result.Add(address);
                 }

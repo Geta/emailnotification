@@ -1,9 +1,9 @@
-﻿using System.Net.Mail;
+﻿using MimeKit;
 
 namespace Geta.EmailNotification
 {
     public interface IMailMessageFactory
     {
-        MailMessage Create(EmailNotificationRequest request);
+        MimeMessage Create(EmailNotificationRequest request);
     }
 }

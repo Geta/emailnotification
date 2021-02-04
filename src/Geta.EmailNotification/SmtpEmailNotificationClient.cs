@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Net.Mail;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
 
 namespace Geta.EmailNotification
 {
@@ -20,7 +20,7 @@ namespace Geta.EmailNotification
 
             try
             {
-                using (var mail = _mailMessageFactory.Create(request))
+                var mail = _mailMessageFactory.Create(request);
                 using (var client = new SmtpClient())
                 {
                     client.Send(mail);
@@ -43,10 +43,10 @@ namespace Geta.EmailNotification
 
             try
             {
-                using (var mail = _mailMessageFactory.Create(request))
+                var mail = _mailMessageFactory.Create(request);
                 using (var client = new SmtpClient())
                 {
-                    await client.SendMailAsync(mail).ConfigureAwait(false);
+                    await client.SendAsync(mail).ConfigureAwait(false);
                 }
 
                 response.IsSent = true;

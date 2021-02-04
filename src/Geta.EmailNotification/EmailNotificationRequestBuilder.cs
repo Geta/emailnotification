@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
 using System.Web.Mvc;
+using MimeKit;
+using AttachmentCollection = MimeKit.AttachmentCollection;
 
 namespace Geta.EmailNotification
 {
@@ -37,7 +38,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithFrom(string email)
         {
-            _request.From = new MailAddress(email);
+            _request.From = MailboxAddress.Parse(email);
             return this;
         }
 
@@ -49,7 +50,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithFrom(string email, string displayName)
         {
-            _request.From = new MailAddress(email, displayName);
+            _request.From = new MailboxAddress(displayName,email);
             return this;
         }
 
@@ -60,7 +61,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithTo(string email)
         {
-            _request.To.Add(new MailAddress(email));
+            _request.To.Add(MailboxAddress.Parse(email));
             return this;
         }
 
@@ -72,7 +73,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithTo(string email, string displayName)
         {
-            _request.To.Add(new MailAddress(email, displayName));
+            _request.To.Add(new MailboxAddress(displayName, email));
             return this;
         }
 
@@ -81,7 +82,7 @@ namespace Geta.EmailNotification
         /// </summary>
         /// <param name="toEmails">MailAddressCollection with To addresses.</param>
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
-        public EmailNotificationRequestBuilder WithTo(MailAddressCollection toEmails)
+        public EmailNotificationRequestBuilder WithTo(IEnumerable<MailboxAddress> toEmails)
         {
             CopyEmails(toEmails, _request.To);
             return this;
@@ -95,7 +96,7 @@ namespace Geta.EmailNotification
         public EmailNotificationRequestBuilder WithTo(IEnumerable<Tuple<string, string>> toEmails)
         {
             var list = toEmails.ToList();
-            list.ForEach(x => _request.To.Add(new MailAddress(x.Item1, x.Item2)));
+            list.ForEach(x => _request.To.Add(new MailboxAddress(x.Item2, x.Item1)));
             return this;
         }
 
@@ -106,7 +107,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithCc(string email)
         {
-            _request.Cc.Add(new MailAddress(email));
+            _request.Cc.Add(MailboxAddress.Parse(email));
             return this;
         }
 
@@ -118,7 +119,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithCc(string email, string displayName)
         {
-            _request.Cc.Add(new MailAddress(email, displayName));
+            _request.Cc.Add(new MailboxAddress(displayName, email));
             return this;
         }
 
@@ -127,7 +128,7 @@ namespace Geta.EmailNotification
         /// </summary>
         /// <param name="toEmails">MailAddressCollection with Cc addresses.</param>
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
-        public EmailNotificationRequestBuilder WithCc(MailAddressCollection toEmails)
+        public EmailNotificationRequestBuilder WithCc(IEnumerable<MailboxAddress> toEmails)
         {
             CopyEmails(toEmails, _request.Cc);
             return this;
@@ -141,7 +142,7 @@ namespace Geta.EmailNotification
         public EmailNotificationRequestBuilder WithCc(IEnumerable<Tuple<string, string>> toEmails)
         {
             var list = toEmails.ToList();
-            list.ForEach(x => _request.Cc.Add(new MailAddress(x.Item1, x.Item2)));
+            list.ForEach(x => _request.Cc.Add(new MailboxAddress(x.Item2, x.Item1)));
             return this;
         }
 
@@ -152,7 +153,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithBcc(string email)
         {
-            _request.Bcc.Add(new MailAddress(email));
+            _request.Bcc.Add(MailboxAddress.Parse(email));
             return this;
         }
 
@@ -164,7 +165,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithBcc(string email, string displayName)
         {
-            _request.Bcc.Add(new MailAddress(email, displayName));
+            _request.Bcc.Add(new MailboxAddress(displayName, email));
             return this;
         }
 
@@ -173,7 +174,7 @@ namespace Geta.EmailNotification
         /// </summary>
         /// <param name="toEmails">MailAddressCollection with Bcc addresses.</param>
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
-        public EmailNotificationRequestBuilder WithBcc(MailAddressCollection toEmails)
+        public EmailNotificationRequestBuilder WithBcc(IEnumerable<MailboxAddress> toEmails)
         {
             CopyEmails(toEmails, _request.Bcc);
             return this;
@@ -187,7 +188,7 @@ namespace Geta.EmailNotification
         public EmailNotificationRequestBuilder WithBcc(IEnumerable<Tuple<string, string>> toEmails)
         {
             var list = toEmails.ToList();
-            list.ForEach(x => _request.Bcc.Add(new MailAddress(x.Item1, x.Item2)));
+            list.ForEach(x => _request.Bcc.Add(new MailboxAddress(x.Item2, x.Item1)));
             return this;
         }
 
@@ -198,7 +199,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithReplyTo(string email)
         {
-            _request.ReplyTo.Add(new MailAddress(email));
+            _request.ReplyTo.Add(MailboxAddress.Parse(email));
             return this;
         }
 
@@ -210,7 +211,7 @@ namespace Geta.EmailNotification
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
         public EmailNotificationRequestBuilder WithReplyTo(string email, string displayName)
         {
-            _request.ReplyTo.Add(new MailAddress(email, displayName));
+            _request.ReplyTo.Add(new MailboxAddress(displayName, email));
             return this;
         }
 
@@ -219,7 +220,7 @@ namespace Geta.EmailNotification
         /// </summary>
         /// <param name="toEmails">MailAddressCollection with ReplyTo addresses.</param>
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
-        public EmailNotificationRequestBuilder WithReplyTo(MailAddressCollection toEmails)
+        public EmailNotificationRequestBuilder WithReplyTo(IEnumerable<MailboxAddress> toEmails)
         {
             CopyEmails(toEmails, _request.ReplyTo);
             return this;
@@ -233,7 +234,7 @@ namespace Geta.EmailNotification
         public EmailNotificationRequestBuilder WithReplyTo(IEnumerable<Tuple<string, string>> toEmails)
         {
             var list = toEmails.ToList();
-            list.ForEach(x => _request.ReplyTo.Add(new MailAddress(x.Item1, x.Item2)));
+            list.ForEach(x => _request.ReplyTo.Add(new MailboxAddress(x.Item2, x.Item1)));
             return this;
         }
 
@@ -290,7 +291,7 @@ namespace Geta.EmailNotification
         /// </summary>
         /// <param name="attachment">Attachment.</param>
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
-        public EmailNotificationRequestBuilder WithAttachment(Attachment attachment)
+        public EmailNotificationRequestBuilder WithAttachment(MimeEntity attachment)
         {
             _request.Attachments.Add(attachment);
             return this;
@@ -301,7 +302,7 @@ namespace Geta.EmailNotification
         /// </summary>
         /// <param name="attachments">Sequence of multiple Attachment values.</param>
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
-        public EmailNotificationRequestBuilder WithAttachments(IEnumerable<Attachment> attachments)
+        public EmailNotificationRequestBuilder WithAttachments(AttachmentCollection attachments)
         {
             foreach (var attachment in attachments)
             {
@@ -328,7 +329,7 @@ namespace Geta.EmailNotification
                 .WithBcc(request.Bcc)
                 .WithCc(request.Cc)
                 .WithTo(request.To)
-                .WithFrom(request.From.Address, request.From.DisplayName)
+                .WithFrom(request.From.Address, request.From.Name)
                 .WithSubject(request.Subject)
                 .WithViewName(request.ViewName)
                 .WithViewData(request.ViewData)
@@ -336,7 +337,7 @@ namespace Geta.EmailNotification
 
         }
 
-        private void CopyEmails(IEnumerable<MailAddress> input, MailAddressCollection output)
+        private void CopyEmails(IEnumerable<MailboxAddress> input, List<MailboxAddress> output)
         {
             foreach (var inp in input)
             {

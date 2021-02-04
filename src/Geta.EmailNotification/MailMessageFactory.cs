@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
-using System.Text;
+using MimeKit;
+using AttachmentCollection = System.Net.Mail.AttachmentCollection;
 
 namespace Geta.EmailNotification
 {
@@ -14,7 +16,7 @@ namespace Geta.EmailNotification
             _renderer = renderer;
         }
 
-        public MailMessage Create(EmailNotificationRequest request)
+        public MimeMessage Create(EmailNotificationRequest request)
         {
             if (request == null)
             {
@@ -33,27 +35,39 @@ namespace Geta.EmailNotification
                     $"{nameof(request)}.{nameof(request.From)}", "From email address cannot be null");
             }
 
-            var mail = new MailMessage
-            {
-                Subject = request.Subject,
-                From = request.From
-            };
+            var mail = new MimeMessage();
+            mail.From.Add(request.From);
+            mail.Subject = request.Subject;
+          
             CopyAddress(request.To, mail.To);
-            CopyAddress(request.Cc, mail.CC);
+            CopyAddress(request.Cc, mail.Cc);
             CopyAddress(request.Bcc, mail.Bcc);
-            CopyAddress(request.ReplyTo, mail.ReplyToList);
-            CopyAttachments(request.Attachments, mail.Attachments);
+            CopyAddress(request.ReplyTo, mail.ReplyTo);
+            var body = CreateBody(request, out var isHtml);
+            
+            var builder = new BodyBuilder();
+            if (isHtml)
+            {
+                builder.HtmlBody = body;
+            }
+            else
+            {
+                builder.TextBody = body;
+            }
 
-            bool isHtml;
-            mail.Body = CreateBody(request, out isHtml);
-            mail.IsBodyHtml = isHtml;
+            if (request.Attachments != null && request.Attachments.Any())
+            {
+                foreach (var attachment in request.Attachments)
+                {
+                    builder.Attachments.Add(attachment);
+                } 
+            }
 
-            mail.BodyEncoding = Encoding.UTF8;
-
+            mail.Body = builder.ToMessageBody();
             return mail;
         }
 
-        private static void CopyAddress(IEnumerable<MailAddress> from, MailAddressCollection to)
+        private static void CopyAddress(IEnumerable<MailboxAddress> from, InternetAddressList to)
         {
             foreach (var mailAddress in from)
             {

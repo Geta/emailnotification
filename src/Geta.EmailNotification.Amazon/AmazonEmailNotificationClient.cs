@@ -92,17 +92,17 @@ namespace Geta.EmailNotification.Amazon
 
             foreach (var mailAddress in request.To)
             {
-                destination.ToAddresses.Add(mailAddress.Address);
+                destination.ToAddresses.Add(mailAddress.Name);
             }
 
             foreach (var mailAddress in request.Cc)
             {
-                destination.CcAddresses.Add(mailAddress.Address);
+                destination.CcAddresses.Add(mailAddress.Name);
             }
 
             foreach (var mailAddress in request.Bcc)
             {
-                destination.BccAddresses.Add(mailAddress.Address);
+                destination.BccAddresses.Add(mailAddress.Name);
             }
 
             return new SendEmailRequest
