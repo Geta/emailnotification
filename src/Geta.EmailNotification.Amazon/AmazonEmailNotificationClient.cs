@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Amazon;
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
+using MimeKit;
 
 namespace Geta.EmailNotification.Amazon
 {
-    /// <summary>
-    /// TODO consider this wrapper for Amazon SES instead: http://www.nuget.org/packages/MailChimpAmazonSES/
-    /// TODO Add support for attachments
-    /// </summary>
     public class AmazonEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {
         private readonly IAmazonSimpleEmailService _simpleEmailServiceClient;
@@ -28,7 +24,7 @@ namespace Geta.EmailNotification.Amazon
             {
                 var amazonRequest = CreateRequest(emailNotificationRequest);
 
-                var response = _simpleEmailServiceClient.SendEmail(amazonRequest);
+                var response = _simpleEmailServiceClient.SendRawEmail(amazonRequest);
 
                 return new EmailNotificationResponse
                 {
@@ -52,7 +48,7 @@ namespace Geta.EmailNotification.Amazon
             {
                 var amazonRequest = CreateRequest(request);
 
-                var response = await _simpleEmailServiceClient.SendEmailAsync(amazonRequest).ConfigureAwait(false);
+                var response = await _simpleEmailServiceClient.SendRawEmailAsync(amazonRequest).ConfigureAwait(false);
 
                 return new EmailNotificationResponse
                 {
@@ -70,7 +66,7 @@ namespace Geta.EmailNotification.Amazon
             }
         }
 
-        private static SendEmailRequest CreateRequest(EmailNotificationRequest request)
+        private static SendRawEmailRequest CreateRequest(EmailNotificationRequest request)
         {
             if (request == null)
             {
@@ -89,32 +85,46 @@ namespace Geta.EmailNotification.Amazon
                     $"{nameof(request)}.{nameof(request.From)}", "From email address cannot be null");
             }
 
-            var destination = new Destination();
+            var message = new MimeMessage();
+            message.From.Add(request.From);
+            message.Subject = request.Subject;
+            var builder = new BodyBuilder()
+            {
+                TextBody = request.Body, 
+                HtmlBody = request.HtmlBody?.ToHtmlString()
+            };
 
+            
             foreach (var mailAddress in request.To)
             {
-                destination.ToAddresses.Add(mailAddress.Address);
+                message.To.Add(mailAddress);
             }
 
             foreach (var mailAddress in request.Cc)
             {
-                destination.CcAddresses.Add(mailAddress.Address);
+                message.Cc.Add(mailAddress);
             }
 
             foreach (var mailAddress in request.Bcc)
             {
-                destination.BccAddresses.Add(mailAddress.Address);
+                message.Bcc.Add(mailAddress);
             }
 
-            return new SendEmailRequest
+            foreach (var attachment in request.Attachments)
             {
-                Destination = destination,
-                ReplyToAddresses = new List<string> {request.From.Address},
-                Message = new Message(
-                    new Content(request.Subject),
-                    new Body(new Content(request.Body ?? string.Empty))),
-                Source = request.From.Address,
-            };
+                builder.Attachments.Add(attachment);
+            }
+
+            using (var messageStream = new MemoryStream())
+            {
+                message.Body = builder.ToMessageBody();
+                message.WriteTo(messageStream);
+                
+                return new SendRawEmailRequest()
+                {
+                    RawMessage = new RawMessage() { Data = messageStream }
+                };
+            }
         }
     }
 }

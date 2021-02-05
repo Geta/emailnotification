@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using PostmarkDotNet;
 
@@ -8,7 +9,8 @@ namespace Geta.EmailNotification.Postmark
     {
         private readonly PostmarkClient _postmarkClient;
         private readonly IPostmarkMessageFactory _postmarkMessageFactory;
-
+        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(PostmarkEmailNotificationClient));
+        
         public PostmarkEmailNotificationClient(
             PostmarkClient postmarkClient, IPostmarkMessageFactory postmarkMessageFactory)
         {
@@ -16,30 +18,54 @@ namespace Geta.EmailNotification.Postmark
             _postmarkMessageFactory = postmarkMessageFactory;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequest request)
         {
-            var message = _postmarkMessageFactory.Create(emailNotificationRequest);
-
-            var response = AsyncHelper.RunSync(() => _postmarkClient.SendMessageAsync(message));
-
-            return new EmailNotificationResponse
+            try
             {
-                IsSent = response.Status == PostmarkStatus.Success,
-                Message = response.ErrorCode.ToString(CultureInfo.InvariantCulture)
-            };
+                var message = _postmarkMessageFactory.Create(request);
+
+                var response = AsyncHelper.RunSync(() => _postmarkClient.SendMessageAsync(message));
+
+                return new EmailNotificationResponse
+                {
+                    IsSent = response.Status == PostmarkStatus.Success,
+                    Message = response.ErrorCode.ToString(CultureInfo.InvariantCulture)
+                };
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
+
+                return new EmailNotificationResponse
+                {
+                    Message = ex.Message
+                };
+            }
         }
 
         public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest request)
         {
-            var message = _postmarkMessageFactory.Create(request);
-
-            var response = await _postmarkClient.SendMessageAsync(message).ConfigureAwait(false);
-
-            return new EmailNotificationResponse
+            try
             {
-                IsSent = response.Status == PostmarkStatus.Success,
-                Message = response.ErrorCode.ToString(CultureInfo.InvariantCulture)
-            };
+                var message = _postmarkMessageFactory.Create(request);
+
+                var response = await _postmarkClient.SendMessageAsync(message).ConfigureAwait(false);
+
+                return new EmailNotificationResponse
+                {
+                    IsSent = response.Status == PostmarkStatus.Success,
+                    Message = response.ErrorCode.ToString(CultureInfo.InvariantCulture)
+                };
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
+
+                return new EmailNotificationResponse
+                {
+                    Message = ex.Message
+                };
+            }
         }
     }
 }
