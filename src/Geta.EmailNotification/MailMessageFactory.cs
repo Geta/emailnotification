@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
 using MimeKit;
-using AttachmentCollection = System.Net.Mail.AttachmentCollection;
 
 namespace Geta.EmailNotification
 {
@@ -72,14 +70,6 @@ namespace Geta.EmailNotification
             foreach (var mailAddress in from)
             {
                 to.Add(mailAddress);
-            }
-        }
-
-        private static void CopyAttachments(IEnumerable<Attachment> from, AttachmentCollection to)
-        {
-            foreach (var attachment in from)
-            {
-                to.Add(attachment);
             }
         }
 

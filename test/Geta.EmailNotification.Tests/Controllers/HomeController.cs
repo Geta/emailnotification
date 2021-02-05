@@ -6,7 +6,10 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using Geta.EmailNotification.Tests.Helpers;
+using MimeKit;
+using MimePart = MimeKit.MimePart;
 
 namespace Geta.EmailNotification.Tests.Controllers
 {
@@ -35,14 +38,13 @@ namespace Geta.EmailNotification.Tests.Controllers
             foreach (var asyncClient in _asyncClients)
             {
                 var stream = StreamHelper.GenerateStreamFromString("This is a test text.");
-
-                var attachment = new Attachment(stream, "test_attachment.txt", "text/plain");
-                var a2 = new MimePart ("image", "gif") {
-                    Content = new MimeContent (File.OpenRead (path)),
+                var attachment = new MimePart ("text", "plain") {
+                    Content = new MimeContent (stream),
                     ContentDisposition = new ContentDisposition (ContentDisposition.Attachment),
                     ContentTransferEncoding = ContentEncoding.Base64,
-                    FileName = Path.GetFileName (path)
+                    FileName = "test_attachment.txt"
                 };
+               
                 var testEmail = new EmailNotificationRequestBuilder()
                     .WithTo("")
                     .WithFrom("")
