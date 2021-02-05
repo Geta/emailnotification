@@ -17,10 +17,10 @@ namespace Geta.EmailNotification.Postmark.Extensions
                 Cc = string.Join(",", mailMessage.Cc.Mailboxes.Select(cc => cc.Address)),
                 Bcc = string.Join(",", mailMessage.Bcc.Mailboxes.Select(bcc => bcc.Address)),
                 Subject = mailMessage.Subject,
-                HtmlBody = !string.IsNullOrEmpty(mailMessage.TextBody)
+                TextBody = !string.IsNullOrEmpty(mailMessage.TextBody)
                     ? mailMessage.TextBody
                     : null,
-                TextBody = !string.IsNullOrEmpty(mailMessage.HtmlBody)
+                HtmlBody = !string.IsNullOrEmpty(mailMessage.HtmlBody)
                     ? mailMessage.HtmlBody
                     : null
             };
