@@ -14,13 +14,13 @@ namespace Geta.EmailNotification
             _mailMessageFactory = mailMessageFactory;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest request)
+        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
         {
             var response = new EmailNotificationResponse();
 
             try
             {
-                var mail = _mailMessageFactory.Create(request);
+                var mail = _mailMessageFactory.Create(emailNotificationRequest);
                 using (var client = new SmtpClient())
                 {
                     client.Send(mail);
@@ -31,7 +31,7 @@ namespace Geta.EmailNotification
             catch (Exception e)
             {
                 response.Message = e.Message;
-                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}", e);
+                Log.Error($"Email failed to: {emailNotificationRequest.To}. Subject: {emailNotificationRequest.Subject}", e);
             }
 
             return response;

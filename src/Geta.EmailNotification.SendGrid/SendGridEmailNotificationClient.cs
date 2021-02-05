@@ -41,11 +41,11 @@ namespace Geta.EmailNotification.SendGrid
             }
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest request)
+        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
         {
             try
             {
-                var message = _mailMessageFactory.CreateSendGridMessage(request);
+                var message = _mailMessageFactory.CreateSendGridMessage(emailNotificationRequest);
 
                 var response = AsyncHelper.RunSync(() => _sendGridClient.SendEmailAsync(message));
 
@@ -57,7 +57,7 @@ namespace Geta.EmailNotification.SendGrid
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
+                Log.Error($"Email failed to: {emailNotificationRequest.To}. Subject: {emailNotificationRequest.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {

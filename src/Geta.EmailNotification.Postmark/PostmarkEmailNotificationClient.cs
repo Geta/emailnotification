@@ -16,9 +16,9 @@ namespace Geta.EmailNotification.Postmark
             _postmarkMessageFactory = postmarkMessageFactory;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest request)
+        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
         {
-            var message = _postmarkMessageFactory.Create(request);
+            var message = _postmarkMessageFactory.Create(emailNotificationRequest);
 
             var response = AsyncHelper.RunSync(() => _postmarkClient.SendMessageAsync(message));
 
