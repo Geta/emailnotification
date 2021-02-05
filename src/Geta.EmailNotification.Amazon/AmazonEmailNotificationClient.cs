@@ -93,17 +93,17 @@ namespace Geta.EmailNotification.Amazon
 
             foreach (var mailAddress in request.To)
             {
-                destination.ToAddresses.Add(mailAddress.Name);
+                destination.ToAddresses.Add(mailAddress.Address);
             }
 
             foreach (var mailAddress in request.Cc)
             {
-                destination.CcAddresses.Add(mailAddress.Name);
+                destination.CcAddresses.Add(mailAddress.Address);
             }
 
             foreach (var mailAddress in request.Bcc)
             {
-                destination.BccAddresses.Add(mailAddress.Name);
+                destination.BccAddresses.Add(mailAddress.Address);
             }
 
             return new SendEmailRequest
@@ -112,7 +112,8 @@ namespace Geta.EmailNotification.Amazon
                 ReplyToAddresses = new List<string> {request.From.Address},
                 Message = new Message(
                     new Content(request.Subject),
-                    new Body(new Content(request.Body)))
+                    new Body(new Content(request.Body ?? string.Empty))),
+                Source = request.From.Address,
             };
         }
     }
