@@ -18,11 +18,11 @@ namespace Geta.EmailNotification.Amazon
             _simpleEmailServiceClient = simpleEmailServiceClient;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequest request)
         {
             try
             {
-                var amazonRequest = CreateRequest(emailNotificationRequest);
+                var amazonRequest = CreateRequest(request);
 
                 var response = _simpleEmailServiceClient.SendRawEmail(amazonRequest);
 
@@ -33,7 +33,7 @@ namespace Geta.EmailNotification.Amazon
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {emailNotificationRequest.To}. Subject: {emailNotificationRequest.Subject}.", ex);
+                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {
