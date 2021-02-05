@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using MimeKit;
@@ -65,12 +64,6 @@ namespace Geta.EmailNotification
         /// Key/value collection for placeholders
         /// </summary>
         public ViewDataDictionary ViewData { get; set; }
-
-        /// <summary>
-        /// By default we try and send asynchronous
-        /// </summary>
-        [Obsolete("This property is not in use anymore. IEmailNotificationClient.Send will be always synchronous. For async use IAsyncEmailNotificationClient.SendAsync.")]
-        public bool SendSynchronous { get; set; }
 
         /// <summary>
         /// Attachments for this email message
