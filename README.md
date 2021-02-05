@@ -44,72 +44,73 @@ If you're using Postmark, MailGun or SendGrid then look further down in this doc
 ```csharp
 public class EmailNotificationRequest
 {
-	public EmailNotificationRequest()
-	{
-		this.Attachments = new List<Attachment>();
-		this.To = new MailAddressCollection();
-		this.Cc = new MailAddressCollection();
-		this.Bcc = new MailAddressCollection();
-		this.ReplyTo = new MailAddressCollection();
-		this.ViewData = new ViewDataDictionary(this);
-	}
+    public EmailNotificationRequest()
+    {
+        this.Attachments = new AttachmentCollection();
+        this.To = new List<MailboxAddress>();
+        this.Cc = new List<MailboxAddress>();
+        this.Bcc = new List<MailboxAddress>();
+        this.ReplyTo = new List<MailboxAddress>();
+        this.ViewData = new ViewDataDictionary(this);
+    }
 
-	/// <summary>
-	/// From email address
-	/// </summary>
-	public MailAddress From { get; set; }
+    /// <summary>
+    /// From email address
+    /// </summary>
+    public MailboxAddress From { get; set; }
 
-	/// <summary>
-	/// To email address'
-	/// </summary>
-	public MailAddressCollection To { get; set; }
+    /// <summary>
+    /// To email address'
+    /// </summary>
+    public List<MailboxAddress> To { get; set; }
 
-	/// <summary>
-	/// Copy email address'
-	/// </summary>
-	public MailAddressCollection Cc { get; set; }
+    /// <summary>
+    /// Copy email address'
+    /// </summary>
+    public List<MailboxAddress> Cc { get; set; }
 
-	/// <summary>
-	/// Blind copy email address'
-	/// </summary>
-	public MailAddressCollection Bcc { get; set; }
+    /// <summary>
+    /// Blind copy email address'
+    /// </summary>
+    public List<MailboxAddress> Bcc { get; set; }
 
-	/// <summary>
-	/// Reply to email address'
-	/// </summary>
-	public MailAddressCollection ReplyTo { get; set; }
+    /// <summary>
+    /// Reply to email address'
+    /// </summary>
+    public List<MailboxAddress> ReplyTo { get; set; }
 
-	public string Subject { get; set; }
+    public string Subject { get; set; }
 
-	/// <summary>
-	/// HTML content for HTML emails
-	/// </summary>
-	public IHtmlString HtmlBody { get; set; }
+    /// <summary>
+    /// HTML content for HTML emails
+    /// </summary>
+    public IHtmlString HtmlBody { get; set; }
 
-	/// <summary>
-	/// Text content for fallback or text only emails
-	/// </summary>
-	public string Body { get; set; }
+    /// <summary>
+    /// Text content for fallback or text only emails
+    /// </summary>
+    public string Body { get; set; }
 
-	/// <summary>
-	/// Razor view name (without .cshtml)
-	/// </summary>
-	public string ViewName { get; set; }
+    /// <summary>
+    /// Razor view name (without .cshtml)
+    /// </summary>
+    public string ViewName { get; set; }
 
-	/// <summary>
-	/// Key/value collection for placeholders
-	/// </summary>
-	public ViewDataDictionary ViewData { get; set; }
+    /// <summary>
+    /// Key/value collection for placeholders
+    /// </summary>
+    public ViewDataDictionary ViewData { get; set; }
 
-	/// <summary>
-	/// By default we try and send asynchronous
-	/// </summary>
-	public bool SendSynchronous { get; set; }
+    /// <summary>
+    /// By default we try and send asynchronous
+    /// </summary>
+    [Obsolete("This property is not in use anymore. IEmailNotificationClient.Send will be always synchronous. For async use IAsyncEmailNotificationClient.SendAsync.")]
+    public bool SendSynchronous { get; set; }
 
-	/// <summary>
-	/// Attachments for this email message
-	/// </summary>
-	public List<Attachment> Attachments { get; set; }
+    /// <summary>
+    /// Attachments for this email message
+    /// </summary>
+    public AttachmentCollection Attachments { get; set; }
 }
 ```
 
@@ -156,15 +157,13 @@ Examples
 ```csharp
 var client = new SmtpEmailNotificationClient(emailViewRenderer);
 var email = new EmailNotificationRequest();
-email.To.Add(new MailAddress("frederik@geta.no"));
-email.From = new MailAddress("no-reply@example.com");
-email.ReplyTo.Add(new MailAddress("reply-to@example.com"));
-email.Bcc.Add(new MailAddress("andre@geta.no"));
-email.Cc.Add(new MailAddress("maris@geta.no"));
-email.Cc.Add(new MailAddress("mattias@geta.no"));
-
-mail.Subject = "Test email";
-
+email.To.Add(new MailboxAddress("fredrik", "frederik@geta.no"));
+email.From = new MailboxAddress("no-reply", "no-reply@example.com");
+email.ReplyTo.Add(new MailboxAddress("reply-to", "reply-to@example.com"));
+email.Bcc.Add(new MailboxAddress("andre", "andre@geta.no"));
+email.Cc.Add(new MailboxAddress("maris", "maris@geta.no"));
+email.Cc.Add(new MailboxAddress("mattias", "mattias@geta.no"));
+email.Subject = "Test email";
 email.ViewName = "Test";
 email.ViewData.Add("Date", DateTime.UtcNow);
 
@@ -228,6 +227,20 @@ Next step, configure a whitelist in the _appSettings_. Add an item with a key _E
 <add key="EmailNotification:Whitelist" value="info@example.com;@geta.no" />
 ```
 
+## Amazon
+When using the Amazon library you need to configure it using StructureMap.
+
+```csharp
+For<IEmailNotificationClient>().Use<AmazonEmailNotificationClient>();
+For<IAsyncEmailNotificationClient>().Use<AmazonEmailNotificationClient>();
+For<IAmazonSimpleEmailService>().Use(ctx => 
+                new AmazonSimpleEmailServiceClient(
+                    "access_key",
+                    "secret_key",
+                    RegionEndpoint.EUWest1));
+```
+
+
 ## Postmark
 When using the Postmark library you need to configure it using StructureMap.
 
@@ -243,10 +256,11 @@ You can get the Postmark API key from https://account.postmarkapp.com. BaseUri i
 Define and configure using StructureMap
 
 ```csharp
+For<IAsyncEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
 For<IEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
-For<IMailgunClient>()
-                .Use(ctx => new MailgunClient(SiteConfiguration.MailGun.Domain, SiteConfiguration.MailGun.ApiKey, 3));
-   
+For<IRestClient>().Use(ctx => new RestClient());
+For<MailGunCredentials>().Use(ctx => 
+                new MailGunCredentials("api_key","api_base_url"));
 ```
 
 ApiKey and Domain can be found in MailGun Settings. BaseDomain sets test/live.
