@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using MimeKit;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -101,6 +104,15 @@ namespace Geta.EmailNotification.MailGun
             foreach (var mail in request.Bcc)
             {
                 restRequest.AddParameter("bcc", mail.Address);
+            }
+
+            foreach (var attachment in request.Attachments.OfType<MimePart>())
+            {
+                using (var stream = new MemoryStream())
+                {
+                    attachment.Content.Stream.CopyTo(stream);
+                    restRequest.AddFile("attachment", stream.ToArray(), attachment.FileName);
+                }
             }
             
             restRequest.Method = Method.POST;
