@@ -1,5 +1,6 @@
 ﻿using SendGrid;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -32,7 +33,9 @@ namespace Geta.EmailNotification.SendGrid
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
+                var emails = request.To?.Select(s => s?.Address);
+                var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
+                Log.Error($"Email failed to: {emailsSerialized}. Subject: {request.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {

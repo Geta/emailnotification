@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using PostmarkDotNet;
 
@@ -34,7 +35,9 @@ namespace Geta.EmailNotification.Postmark
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
+                var emails = request.To?.Select(s => s?.Address);
+                var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
+                Log.Error($"Email failed to: {emailsSerialized}. Subject: {request.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {

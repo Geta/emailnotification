@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.SimpleEmail;
@@ -33,8 +34,10 @@ namespace Geta.EmailNotification.Amazon
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
-
+                var emails = request.To?.Select(s => s?.Address);
+                var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
+                Log.Error($"Email failed to: {emailsSerialized}. Subject: {request.Subject}.", ex);
+                
                 return new EmailNotificationResponse
                 {
                     Message = ex.Message
