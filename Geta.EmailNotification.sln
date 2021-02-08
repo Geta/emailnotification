@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification", "src\Geta.EmailNotification\Geta.EmailNotification.csproj", "{19827C7C-F419-4157-9C62-BE47E4E36CF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Amazon", "src\Geta.EmailNotification.Amazon\Geta.EmailNotification.Amazon.csproj", "{2F66F7B4-127D-49B3-94CB-A24EA16C258F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Tests", "test\Geta.EmailNotification.Tests\Geta.EmailNotification.Tests.csproj", "{D2F92C70-D9BE-42F3-A6B9-1F9D3D533459}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.SendGrid", "src\Geta.EmailNotification.SendGrid\Geta.EmailNotification.SendGrid.csproj", "{C438E126-A2E4-4C65-AA7A-4CB3D6D2E7D6}"
@@ -14,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Postmark", "src\Geta.EmailNotification.Postmark\Geta.EmailNotification.Postmark.csproj", "{FBF1C26D-213C-45CB-BB73-C576C1972D3B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.MailGun", "src\Geta.EmailNotification.MailGun\Geta.EmailNotification.MailGun.csproj", "{1FBC4A71-998E-4DAC-909C-CB636EBD33C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Amazon", "src\Geta.EmailNotification.Amazon\Geta.EmailNotification.Amazon.csproj", "{7186886A-3A92-44BE-BF9D-4BFFD8AE1F48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		{19827C7C-F419-4157-9C62-BE47E4E36CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19827C7C-F419-4157-9C62-BE47E4E36CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19827C7C-F419-4157-9C62-BE47E4E36CF3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F66F7B4-127D-49B3-94CB-A24EA16C258F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F66F7B4-127D-49B3-94CB-A24EA16C258F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F66F7B4-127D-49B3-94CB-A24EA16C258F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F66F7B4-127D-49B3-94CB-A24EA16C258F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2F92C70-D9BE-42F3-A6B9-1F9D3D533459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2F92C70-D9BE-42F3-A6B9-1F9D3D533459}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2F92C70-D9BE-42F3-A6B9-1F9D3D533459}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{1FBC4A71-998E-4DAC-909C-CB636EBD33C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FBC4A71-998E-4DAC-909C-CB636EBD33C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FBC4A71-998E-4DAC-909C-CB636EBD33C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7186886A-3A92-44BE-BF9D-4BFFD8AE1F48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7186886A-3A92-44BE-BF9D-4BFFD8AE1F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7186886A-3A92-44BE-BF9D-4BFFD8AE1F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7186886A-3A92-44BE-BF9D-4BFFD8AE1F48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
