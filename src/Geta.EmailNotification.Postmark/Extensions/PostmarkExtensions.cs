@@ -1,32 +1,33 @@
 ﻿using System.Linq;
 using System.Net.Mail;
+using MimeKit;
 using PostmarkDotNet;
 
 namespace Geta.EmailNotification.Postmark.Extensions
 {
     public static class PostmarkExtensions
     {
-        public static PostmarkMessage ToPostmarkMessage(this MailMessage mailMessage)
+        public static PostmarkMessage ToPostmarkMessage(this MimeMessage mailMessage)
         {
             var postmarkMessage = new PostmarkMessage
             {
-                From = mailMessage.From.Address,
-                ReplyTo = mailMessage.ReplyToList.FirstOrDefault()?.Address,
-                To = string.Join(",", mailMessage.To.Select(to => to.Address)),
-                Cc = string.Join(",", mailMessage.CC.Select(cc => cc.Address)),
-                Bcc = string.Join(",", mailMessage.Bcc.Select(bcc => bcc.Address)),
+                From = mailMessage.From.Mailboxes.First().Address,
+                ReplyTo = mailMessage.ReplyTo.Mailboxes.FirstOrDefault()?.Address,
+                To = string.Join(",", mailMessage.To.Mailboxes.Select(to => to.Address)),
+                Cc = string.Join(",", mailMessage.Cc.Mailboxes.Select(cc => cc.Address)),
+                Bcc = string.Join(",", mailMessage.Bcc.Mailboxes.Select(bcc => bcc.Address)),
                 Subject = mailMessage.Subject,
-                HtmlBody = mailMessage.IsBodyHtml 
-                    ? mailMessage.Body
+                TextBody = !string.IsNullOrEmpty(mailMessage.TextBody)
+                    ? mailMessage.TextBody
                     : null,
-                TextBody = !mailMessage.IsBodyHtml
-                    ? mailMessage.Body
+                HtmlBody = !string.IsNullOrEmpty(mailMessage.HtmlBody)
+                    ? mailMessage.HtmlBody
                     : null
             };
 
-            foreach (var mailAttachment in mailMessage.Attachments)
+            foreach (var mailAttachment in mailMessage.Attachments.OfType<MimePart>())
             {
-                postmarkMessage.AddAttachment(mailAttachment.ContentStream, mailAttachment.Name, mailAttachment.ContentType.MediaType, mailAttachment.ContentId);
+                postmarkMessage.AddAttachment(mailAttachment.Content.Stream, mailAttachment.FileName, mailAttachment.ContentType.MediaType, mailAttachment.ContentId);
             }
 
             return postmarkMessage;

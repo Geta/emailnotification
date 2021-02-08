@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using MimeKit;
 
 namespace Geta.EmailNotification
 {
@@ -17,31 +19,31 @@ namespace Geta.EmailNotification
             _whitelistConfiguration = whitelistConfiguration;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest request)
+        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
         {
-            if (request == null)
+            if (emailNotificationRequest == null)
             {
-                throw new ArgumentNullException(nameof(request), "EmailNotificationRequest cannot be null");
+                throw new ArgumentNullException(nameof(emailNotificationRequest), "EmailNotificationRequest cannot be null");
             }
 
             if (!_whitelistConfiguration.HasWhitelist)
             {
-                return _emailClient.Send(request);
+                return _emailClient.Send(emailNotificationRequest);
             }
 
-            request.To = WhiteList(request.To);
-            request.Cc = WhiteList(request.Cc);
-            request.Bcc = WhiteList(request.Bcc);
+            emailNotificationRequest.To = WhiteList(emailNotificationRequest.To);
+            emailNotificationRequest.Cc = WhiteList(emailNotificationRequest.Cc);
+            emailNotificationRequest.Bcc = WhiteList(emailNotificationRequest.Bcc);
 
-            return _emailClient.Send(request);
+            return _emailClient.Send(emailNotificationRequest);
         }
 
-        private MailAddressCollection WhiteList(MailAddressCollection addressCollection)
+        private List<MailboxAddress> WhiteList(IEnumerable<MailboxAddress> addressCollection)
         {
-            var result = new MailAddressCollection();
+            var result = new List<MailboxAddress>();
             foreach (var address in addressCollection)
             {
-                if (InWhitelist(address.Address))
+                if (InWhitelist(address.Name))
                 {
                     result.Add(address);
                 }

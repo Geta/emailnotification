@@ -1,43 +1,47 @@
 ﻿using System;
-using Typesafe.Mailgun;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using MimeKit;
+using RestSharp;
+using RestSharp.Authenticators;
 
 namespace Geta.EmailNotification.MailGun
-
-{   /// <summary>
-    /// Simple wrapper for Typesafe.Mailgun
-    /// Unfortunately doesnæt suppor async sending
-    /// <todo>The Typesafe.Mailgun wrapper doesn't return a status code although MailGun does. Add better error handling</todo>
-    /// </summary>
-    public class MailGunEmailNotificationClient : IEmailNotificationClient
+{   
+    public class MailGunEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {
-        private readonly IMailgunClient _mailGunClient;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(MailGunEmailNotificationClient));
-        private readonly IMailMessageFactory _mailMessageFactory;
+        private readonly MailGunCredentials _mailGunCredentials;
+        private readonly IRestClient _restClient;
 
-        public MailGunEmailNotificationClient(
-            IMailgunClient mailGunClient,
-            IMailMessageFactory mailMessageFactory)
+        public MailGunEmailNotificationClient(MailGunCredentials mailGunCredentials, IRestClient restClient)
         {
-            _mailGunClient = mailGunClient;
-            _mailMessageFactory = mailMessageFactory;
+            _mailGunCredentials = mailGunCredentials;
+            _restClient = restClient;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest request)
+        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
         {
             try
             {
-                var mailGunRequest = _mailMessageFactory.Create(request);
-                var response = _mailGunClient.SendMail(mailGunRequest);
+                _restClient.BaseUrl = new Uri (_mailGunCredentials.ApiBaseUrl);
+                _restClient.Authenticator =
+                    new HttpBasicAuthenticator ("api",
+                    _mailGunCredentials.ApiKey);
+                var request = BuildRequest(emailNotificationRequest);
 
+                var response = _restClient.Execute(request);
                 return new EmailNotificationResponse
                 {
                     IsSent = true,
-                    Message = response.Message
+                    Message = response.Content
                 };
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
+                var emails = emailNotificationRequest.To?.Select(s => s?.Address);
+                var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
+                Log.Error($"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {
@@ -45,6 +49,78 @@ namespace Geta.EmailNotification.MailGun
                 };
             }
         }
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest emailNotificationRequest)
+        {
+            try
+            {
+                _restClient.BaseUrl = new Uri (_mailGunCredentials.ApiBaseUrl);
+                _restClient.Authenticator =
+                    new HttpBasicAuthenticator ("api",
+                        _mailGunCredentials.ApiKey);
+                var request = BuildRequest(emailNotificationRequest);
 
+                var response = await _restClient.ExecuteAsync(request);
+                return new EmailNotificationResponse
+                {
+                    IsSent = true,
+                    Message = response.Content
+                };
+            }
+            catch (Exception ex)
+            {
+                var emails = emailNotificationRequest.To?.Select(s => s?.Address);
+                var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
+                Log.Error($"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject}.", ex);
+
+                return new EmailNotificationResponse
+                {
+                    Message = ex.Message
+                };
+            }
+        }
+        
+        private static RestRequest BuildRequest(EmailNotificationRequest request)
+        {
+            var restRequest = new RestRequest {Resource = "messages"};
+            restRequest.AddParameter("from", request.From.Address);
+            restRequest.AddParameter("subject", request.Subject);
+
+            if (!string.IsNullOrEmpty(request.Body))
+            {
+                restRequest.AddParameter("text", request.Body);
+            }
+
+            if (request.HtmlBody != null)
+            {
+                restRequest.AddParameter("html", request.HtmlBody.ToString());
+            }
+            
+            foreach (var mail in request.To)
+            {
+                restRequest.AddParameter("to", mail.Address);
+            }
+            
+            foreach (var mail in request.Cc)
+            {
+                restRequest.AddParameter("cc", mail.Address);
+            }
+            
+            foreach (var mail in request.Bcc)
+            {
+                restRequest.AddParameter("bcc", mail.Address);
+            }
+
+            foreach (var attachment in request.Attachments.OfType<MimePart>())
+            {
+                using (var stream = new MemoryStream())
+                {
+                    attachment.Content.Stream.CopyTo(stream);
+                    restRequest.AddFile("attachment", stream.ToArray(), attachment.FileName);
+                }
+            }
+            
+            restRequest.Method = Method.POST;
+            return restRequest;
+        }
     }
 }

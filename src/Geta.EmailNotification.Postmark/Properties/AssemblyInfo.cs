@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Geta")]
 [assembly: AssemblyProduct("Geta.EmailNotification.Postmark")]
-[assembly: AssemblyCopyright("Copyright Geta© 2018")]
+[assembly: AssemblyCopyright("Copyright Geta© 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

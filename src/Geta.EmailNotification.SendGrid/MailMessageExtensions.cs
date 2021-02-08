@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
+using MimeKit;
 using SendGrid.Helpers.Mail;
 using Attachment = SendGrid.Helpers.Mail.Attachment;
 
@@ -10,55 +10,55 @@ namespace Geta.EmailNotification.SendGrid
 {
     public static class MailMessageExtensions
     {
-        public static EmailAddress GetSendGridAddress(this MailAddress address)
+        public static EmailAddress GetSendGridAddress(this MailboxAddress mailbox)
         {
-            return String.IsNullOrWhiteSpace(address.DisplayName) ?
-                new EmailAddress(address.Address) :
-                new EmailAddress(address.Address, address.DisplayName.Replace(",", "").Replace(";", ""));
+            return String.IsNullOrWhiteSpace(mailbox.Name) ?
+                new EmailAddress(mailbox.Address) :
+                new EmailAddress(mailbox.Address, mailbox.Name.Replace(",", "").Replace(";", ""));
         }
 
-        public static Attachment ConvertToSendGridAttachment(this System.Net.Mail.Attachment attachment)
+        public static Attachment ConvertToSendGridAttachment(this MimePart attachment)
         {
             using (var stream = new MemoryStream())
             {
-                attachment.ContentStream.CopyTo(stream);
-                return new Attachment()
+               attachment.Content.Stream.CopyTo(stream);
+               return new Attachment()
                 {
                     Disposition = "attachment",
                     Type = attachment.ContentType.MediaType,
-                    Filename = attachment.Name,
+                    Filename = attachment.FileName,
                     ContentId = attachment.ContentId,
                     Content = Convert.ToBase64String(stream.ToArray())
                 };
             }
         }
 
-        public static SendGridMessage ConvertToSendGridMessage(this MailMessage message)
+        public static SendGridMessage ConvertToSendGridMessage(this MimeMessage message)
         {
             var sendgridMessage = new SendGridMessage();
 
-            sendgridMessage.From = GetSendGridAddress(message.From);
+            sendgridMessage.From = GetSendGridAddress(message.From.Mailboxes.First());
 
-            if (message.ReplyToList.Any())
+            if (message.ReplyTo.Any())
             {
-                sendgridMessage.ReplyTo = message.ReplyToList.First().GetSendGridAddress();
+                sendgridMessage.ReplyTo = message.ReplyTo.Mailboxes.First().GetSendGridAddress();
             }
 
             if (message.To.Any())
             {
-                var tos = message.To.Select(x => x.GetSendGridAddress()).ToList();
+                var tos = message.To.Mailboxes.Select(x => x.GetSendGridAddress()).ToList();
                 sendgridMessage.AddTos(tos);
             }
 
-            if (message.CC.Any())
+            if (message.Cc.Any())
             {
-                var cc = message.CC.Select(x => x.GetSendGridAddress()).ToList();
+                var cc = message.Cc.Mailboxes.Select(x => x.GetSendGridAddress()).ToList();
                 sendgridMessage.AddCcs(cc);
             }
 
             if (message.Bcc.Any())
             {
-                var bcc = message.Bcc.Select(x => x.GetSendGridAddress()).ToList();
+                var bcc = message.Bcc.Mailboxes.Select(x => x.GetSendGridAddress()).ToList();
                 sendgridMessage.AddBccs(bcc);
             }
 
@@ -66,35 +66,33 @@ namespace Geta.EmailNotification.SendGrid
             {
                 sendgridMessage.Subject = message.Subject;
             }
-
-            if (!string.IsNullOrWhiteSpace(message.Body))
+            
+            if (message.HtmlBody != null)
             {
-                var content = message.Body;
-
-                if (message.IsBodyHtml)
+                string content = message.HtmlBody;
+                content = content.Replace("\r", string.Empty).Replace("\n", string.Empty);
+                if (content.StartsWith("<html"))
                 {
-                    content = content.Replace("\r", string.Empty).Replace("\n", string.Empty);
-                    if (content.StartsWith("<html"))
-                    {
-                        content = message.Body;
-                    }
-                    else
-                    {
-                        content = $"<html><body>{message.Body}</body></html>";
-                    }
-
-                    sendgridMessage.AddContent("text/html", content);
+                    content = message.HtmlBody;
                 }
                 else
                 {
-                    sendgridMessage.AddContent("text/plain", content);
+                    content = $"<html><body>{message.HtmlBody}</body></html>";
                 }
+
+                sendgridMessage.AddContent("text/html", content);
+            }
+
+            if (!string.IsNullOrWhiteSpace(message.TextBody))
+            {
+                sendgridMessage.AddContent("text/plain", message.Body.ToString());
             }
 
             if (message.Attachments.Any())
             {
                 sendgridMessage.Attachments = new List<Attachment>();
-                sendgridMessage.Attachments.AddRange(message.Attachments.Select(ConvertToSendGridAttachment));
+                sendgridMessage.Attachments.AddRange(message.Attachments
+                    .OfType<MimePart>().Select(ConvertToSendGridAttachment));
             }
 
             return sendgridMessage;

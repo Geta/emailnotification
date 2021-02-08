@@ -1,5 +1,6 @@
 ﻿using SendGrid;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -32,7 +33,9 @@ namespace Geta.EmailNotification.SendGrid
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
+                var emails = request.To?.Select(s => s?.Address);
+                var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
+                Log.Error($"Email failed to: {emailsSerialized}. Subject: {request.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {
@@ -41,11 +44,11 @@ namespace Geta.EmailNotification.SendGrid
             }
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest request)
+        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
         {
             try
             {
-                var message = _mailMessageFactory.CreateSendGridMessage(request);
+                var message = _mailMessageFactory.CreateSendGridMessage(emailNotificationRequest);
 
                 var response = AsyncHelper.RunSync(() => _sendGridClient.SendEmailAsync(message));
 
@@ -57,8 +60,10 @@ namespace Geta.EmailNotification.SendGrid
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}.", ex);
-
+                var emails = emailNotificationRequest.To?.Select(s => s?.Address);
+                var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
+                Log.Error($"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject}.", ex);
+                
                 return new EmailNotificationResponse
                 {
                     Message = ex.Message
