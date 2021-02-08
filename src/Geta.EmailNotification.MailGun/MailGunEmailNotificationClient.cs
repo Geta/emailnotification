@@ -68,7 +68,9 @@ namespace Geta.EmailNotification.MailGun
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {emailNotificationRequest.From.Address}. Subject: {emailNotificationRequest.Subject}.", ex);
+                var emails = emailNotificationRequest.To?.Select(s => s?.Address);
+                var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
+                Log.Error($"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {

@@ -60,8 +60,10 @@ namespace Geta.EmailNotification.SendGrid
             }
             catch (Exception ex)
             {
-                Log.Error($"Email failed to: {emailNotificationRequest.To}. Subject: {emailNotificationRequest.Subject}.", ex);
-
+                var emails = emailNotificationRequest.To?.Select(s => s?.Address);
+                var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
+                Log.Error($"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject}.", ex);
+                
                 return new EmailNotificationResponse
                 {
                     Message = ex.Message
