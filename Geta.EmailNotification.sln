@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Amaz
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification", "src\Geta.EmailNotification\Geta.EmailNotification.csproj", "{678EBAAC-D671-41B5-8141-4B083F2835B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Tests", "src\Geta.EmailNotification.Tests\Geta.EmailNotification.Tests.csproj", "{B9D1C60A-1384-47F4-81B4-3B5BCE8AD081}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Tests", "test\Geta.EmailNotification.Tests\Geta.EmailNotification.Tests.csproj", "{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{678EBAAC-D671-41B5-8141-4B083F2835B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{678EBAAC-D671-41B5-8141-4B083F2835B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{678EBAAC-D671-41B5-8141-4B083F2835B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9D1C60A-1384-47F4-81B4-3B5BCE8AD081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9D1C60A-1384-47F4-81B4-3B5BCE8AD081}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9D1C60A-1384-47F4-81B4-3B5BCE8AD081}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9D1C60A-1384-47F4-81B4-3B5BCE8AD081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

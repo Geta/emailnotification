@@ -39,7 +39,7 @@ namespace Geta.EmailNotification.Tests
             //Async notification
             //services.AddScoped<IAsyncEmailNotificationClient, SendGridEmailNotificationClient>();
             //services.AddScoped<IAsyncEmailNotificationClient, PostmarkEmailNotificationClient>();
-            services.AddScoped<IAsyncEmailNotificationClient, MailGunEmailNotificationClient>();
+            //services.AddScoped<IAsyncEmailNotificationClient, MailGunEmailNotificationClient>();
             //services.AddScoped<IAsyncEmailNotificationClient, AmazonEmailNotificationClient>();
             
             //Sync notification
