@@ -1,4 +1,4 @@
-﻿namespace Geta.EmailNotification.Tests1.Models
+﻿namespace Geta.EmailNotification.Tests.Models
 {
     public class EmailNotificationResponseViewModel
     {

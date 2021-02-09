@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Geta.EmailNotification.Tests1": {
+    "Geta.EmailNotification.Tests": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

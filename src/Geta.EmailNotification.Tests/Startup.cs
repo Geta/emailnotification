@@ -13,7 +13,7 @@ using PostmarkDotNet;
 using RestSharp;
 using SendGrid;
 
-namespace Geta.EmailNotification.Tests1
+namespace Geta.EmailNotification.Tests
 {
     public class Startup
     {
