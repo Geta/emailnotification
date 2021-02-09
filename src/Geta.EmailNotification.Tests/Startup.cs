@@ -48,6 +48,12 @@ namespace Geta.EmailNotification.Tests1
             //services.AddScoped<IEmailNotificationClient, MailGunEmailNotificationClient>();
             //services.AddScoped<IEmailNotificationClient, AmazonEmailNotificationClient>();
 
+            // Whitelists test
+            // services.AddScoped<MailGunEmailNotificationClient>();
+            // services.AddScoped<WhitelistConfiguration>();
+            // services.AddScoped<IAsyncEmailNotificationClient>(provider => 
+            //     new WhitelistAsyncEmailNotificationClientDecorator(provider.GetRequiredService<MailGunEmailNotificationClient>(),
+            //         provider.GetRequiredService<WhitelistConfiguration>()));
             //TODO: Add credentails to services
             services.AddScoped<IAmazonSimpleEmailService>(ctx => 
                 new AmazonSimpleEmailServiceClient(

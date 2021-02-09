@@ -275,12 +275,13 @@ To use SendGrid in your project, you need to create a new sendgrid subuser and g
 3. Switch to that subuser account and create an Api Key with the privileges that you deem necessary.
 4. Store that api key in your favorite secure setting and use it to define and configure through StructureMap:
 ```csharp
-For<IAsyncEmailNotificationClient>().Use<SendGridEmailNotificationClient>(); // For async calls
-For<IEmailNotificationClient>().Use<SendGridEmailNotificationClient>(); // For sync calls
-For<ISendGridClient>().Use(ctx => new SendGridClient(<<Your_API_Key>>, "https://api.sendgrid.com", null,"v3", "/mail/send")); //the "/mail/send" url path is one of many endpoints that you can use. Set null for default.
+services.AddScoped<IAsyncEmailNotificationClient, SendGridEmailNotificationClient>();
+services.AddScoped<IEmailNotificationClient, SendGridEmailNotificationClient>();
+services.AddScoped<ISendGridClient>(ctx => new SendGridClient(<<Your_API_Key>>, "https://api.sendgrid.com", null,"v3", "/mail/send")); //the "/mail/send" url path is one of many endpoints that you can use. Set null for default.
 // Dont forget to register your viewengines and mailfactory as defined above:
-For<IEmailViewRenderer>().Use<EmailViewRenderer>(() => new EmailViewRenderer(new ViewEngineCollection { new RazorViewEngine() })); // if necessary to create a new view engine
-For<IMailMessageFactory>().Use<MailMessageFactory>();
+services.AddScoped<SendGridMessageFactory, SendGridMessageFactory>();
+services.AddScoped<IEmailViewRenderer, EmailViewRenderer>();
+            services.AddScoped<IMailMessageFactory, MailMessageFactory>();
 ```
 5. Check test project and follow the steps used to create sync or async e-mails.
 
