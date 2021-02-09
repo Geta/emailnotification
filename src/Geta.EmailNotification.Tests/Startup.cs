@@ -39,14 +39,14 @@ namespace Geta.EmailNotification.Tests1
             //Async notification
             //services.AddScoped<IAsyncEmailNotificationClient, SendGridEmailNotificationClient>();
             //services.AddScoped<IAsyncEmailNotificationClient, PostmarkEmailNotificationClient>();
-            //services.AddScoped<IAsyncEmailNotificationClient, MailGunEmailNotificationClient>();
-            services.AddScoped<IAsyncEmailNotificationClient, AmazonEmailNotificationClient>();
+            services.AddScoped<IAsyncEmailNotificationClient, MailGunEmailNotificationClient>();
+            //services.AddScoped<IAsyncEmailNotificationClient, AmazonEmailNotificationClient>();
             
             //Sync notification
             //services.AddScoped<IEmailNotificationClient, SendGridEmailNotificationClient>();
             //services.AddScoped<IEmailNotificationClient, PostmarkEmailNotificationClient>();
             //services.AddScoped<IEmailNotificationClient, MailGunEmailNotificationClient>();
-            services.AddScoped<IEmailNotificationClient, AmazonEmailNotificationClient>();
+            //services.AddScoped<IEmailNotificationClient, AmazonEmailNotificationClient>();
 
             //TODO: Add credentails to services
             services.AddScoped<IAmazonSimpleEmailService>(ctx => 
