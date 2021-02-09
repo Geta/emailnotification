@@ -1,5 +1,12 @@
 ﻿# Changelog
 
+## [3.0.0]
+
+### Changed
+- Fix issue #2 migrate to netstandard2.0
+- Add possiblity to use Views for emails for Amazon and Mailgun
+- Removed URlHelperExtensions
+
 ## [2.0.0]
 
 ### Changed
