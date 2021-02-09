@@ -1,0 +1,18 @@
+﻿@model List<EmailNotificationResponseViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<head>
+    <title>Email Notification test view</title>
+</head>
+<body>
+<h1>Test results</h1>
+<br />
+@{
+    foreach (var result in Model)
+    {
+        <p>@(result.AssemblyName): @(result.NotificationResponse.IsSent ? "Message was sent." : string.Format("Message not sent: {0}.",result.NotificationResponse.Message)) </p>
+    }
+}
+</body>

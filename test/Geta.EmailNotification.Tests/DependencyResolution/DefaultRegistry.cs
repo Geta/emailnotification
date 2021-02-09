@@ -23,18 +23,18 @@ namespace Geta.EmailNotification.Tests.DependencyResolution
 					scan.With(new ControllerConvention());
                 });
 
-            For<IEmailViewRenderer>().Use(() => new EmailViewRenderer(new ViewEngineCollection { new RazorViewEngine() }));
+            // For<IEmailViewRenderer>().Use(() => new EmailViewRenderer(new ViewEngineCollection { new RazorViewEngine() }));
             For<IMailMessageFactory>().Use<MailMessageFactory>();
             For<IPostmarkMessageFactory>().Use<PostmarkMessageFactory>();
             For<IAsyncEmailNotificationClient>().Use<SendGridEmailNotificationClient>();
-            For<IAsyncEmailNotificationClient>().Use<PostmarkEmailNotificationClient>();
-            For<IAsyncEmailNotificationClient>().Use<AmazonEmailNotificationClient>();
-            For<IAsyncEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
+            // For<IAsyncEmailNotificationClient>().Use<PostmarkEmailNotificationClient>();
+            // For<IAsyncEmailNotificationClient>().Use<AmazonEmailNotificationClient>();
+            // For<IAsyncEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
             
-            For<IEmailNotificationClient>().Use<SendGridEmailNotificationClient>();
-            For<IEmailNotificationClient>().Use<PostmarkEmailNotificationClient>();
-            For<IEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
-            For<IEmailNotificationClient>().Use<AmazonEmailNotificationClient>();
+            // For<IEmailNotificationClient>().Use<SendGridEmailNotificationClient>();
+            // For<IEmailNotificationClient>().Use<PostmarkEmailNotificationClient>();
+            // For<IEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
+            // For<IEmailNotificationClient>().Use<AmazonEmailNotificationClient>();
             For<IRestClient>().Use(ctx => new RestClient());
 	        // TODO: update with real keys to test
             For<IAmazonSimpleEmailService>().Use(ctx => 

@@ -46,8 +46,8 @@ namespace Geta.EmailNotification.Tests.Controllers
                 };
                
                 var testEmail = new EmailNotificationRequestBuilder()
-                    .WithTo("")
-                    .WithFrom("")
+                    .WithTo("zw@aa.pl")
+                    .WithFrom("aa@aa.pl")
                     .WithSubject($"Async test e-mail using {asyncClient.ToString().Split('.').Last()}")
                     .WithAttachment(attachment)
                     .WithViewName("Test")
