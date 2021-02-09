@@ -13,9 +13,4 @@
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Include="Views\Emails\Web.config" />
-      <Content Include="Views\Emails\_ViewStart.cshtml" />
-    </ItemGroup>
-
 </Project>
