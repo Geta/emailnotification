@@ -56,7 +56,7 @@ namespace Geta.EmailNotification
         public string Body { get; set; }
 
         /// <summary>
-        /// Razor view name (without .cshtml)
+        /// Razor view path and name (without .cshtml). Example: Emails/Test
         /// </summary>
         public string ViewName { get; set; }
 

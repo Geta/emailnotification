@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MimeKit;
 
 namespace Geta.EmailNotification
 {
-    public class WhitelistEmailNotificationClientDecorator : IEmailNotificationClient
+    public class WhitelistAsyncEmailNotificationClientDecorator : IAsyncEmailNotificationClient
     {
-        private readonly IEmailNotificationClient _emailClient;
+        private readonly IAsyncEmailNotificationClient _emailClient;
         private readonly WhitelistConfiguration _whitelistConfiguration;
 
-        public WhitelistEmailNotificationClientDecorator(
-            IEmailNotificationClient emailClient,
+        public WhitelistAsyncEmailNotificationClientDecorator(
+            IAsyncEmailNotificationClient emailClient,
             WhitelistConfiguration whitelistConfiguration)
         {
             _emailClient = emailClient;
             _whitelistConfiguration = whitelistConfiguration;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest emailNotificationRequest)
         {
             if (emailNotificationRequest == null)
             {
@@ -27,14 +28,14 @@ namespace Geta.EmailNotification
 
             if (!_whitelistConfiguration.HasWhitelist)
             {
-                return _emailClient.Send(emailNotificationRequest);
+                return await _emailClient.SendAsync(emailNotificationRequest);
             }
 
             emailNotificationRequest.To = WhiteList(emailNotificationRequest.To);
             emailNotificationRequest.Cc = WhiteList(emailNotificationRequest.Cc);
             emailNotificationRequest.Bcc = WhiteList(emailNotificationRequest.Bcc);
 
-            return _emailClient.Send(emailNotificationRequest);
+            return await _emailClient.SendAsync(emailNotificationRequest);
         }
 
         private List<MailboxAddress> WhiteList(IEnumerable<MailboxAddress> addressCollection)
