@@ -1,61 +1,33 @@
-using System.Configuration;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace Geta.EmailNotification
 {
     public class WhitelistConfiguration
     {
-        private string[] _emails = new string[0];
-        private string[] _domains = new string[0];
-        private bool _initialized;
+        private readonly string[] _emails;
+        private readonly string[] _domains;
 
-        public string[] Emails
-        {
-            get
-            {
-                if (!_initialized)
-                {
-                    Initialize();
-                }
-                return _emails;
-            }
-        }
+        public string[] Emails => _emails;
 
-        public string[] Domains
-        {
-            get
-            {
-                if (!_initialized)
-                {
-                    Initialize();
-                }
-                return _domains;
-            }
-        }
+        public string[] Domains => _domains;
 
         public bool HasWhitelist => Emails.Any() || Domains.Any();
 
-        private void Initialize()
+        public WhitelistConfiguration(IConfiguration configuration)
         {
-            var config = ConfigurationManager.AppSettings["EmailNotification:Whitelist"];
+            var config = configuration["EmailNotification:Whitelist"];
 
-            if (string.IsNullOrEmpty(config))
+            var items = config?.Split(';');
+            if (items == null || items.Length == 0)
             {
-                _initialized = true;
+                _emails = new string[0];
+                _domains = new string[0];
                 return;
             }
-
-            var items = config.Split(';');
-            if (items.Length == 0)
-            {
-                _initialized = true;
-                return;
-            }
-
+            
             _domains = items.Where(x => x.StartsWith("@")).ToArray();
             _emails = items.Where(x => !x.StartsWith("@")).ToArray();
-
-            _initialized = true;
         }
     }
 }

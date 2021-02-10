@@ -12,19 +12,21 @@ namespace Geta.EmailNotification.Amazon
     public class AmazonEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {
         private readonly IAmazonSimpleEmailService _simpleEmailServiceClient;
+        private readonly IAmazonMessageFactory _amazonMessageFactory;
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(AmazonEmailNotificationClient));
 
-        public AmazonEmailNotificationClient(IAmazonSimpleEmailService simpleEmailServiceClient)
+        public AmazonEmailNotificationClient(IAmazonSimpleEmailService simpleEmailServiceClient,
+            IAmazonMessageFactory amazonMessageFactory)
         {
             _simpleEmailServiceClient = simpleEmailServiceClient;
+            _amazonMessageFactory = amazonMessageFactory;
         }
 
         public EmailNotificationResponse Send(EmailNotificationRequest request)
         {
             try
             {
-                var amazonRequest = CreateRequest(request);
-
+                var amazonRequest = _amazonMessageFactory.Create(request);
                 var response = _simpleEmailServiceClient.SendRawEmail(amazonRequest);
 
                 return new EmailNotificationResponse
@@ -49,9 +51,9 @@ namespace Geta.EmailNotification.Amazon
         {
             try
             {
-                var amazonRequest = CreateRequest(request);
-
-                var response = await _simpleEmailServiceClient.SendRawEmailAsync(amazonRequest).ConfigureAwait(false);
+                var amazonRequest = _amazonMessageFactory.Create(request);
+                var response = await _simpleEmailServiceClient.SendRawEmailAsync(amazonRequest)
+                    .ConfigureAwait(false);
 
                 return new EmailNotificationResponse
                 {
@@ -93,10 +95,10 @@ namespace Geta.EmailNotification.Amazon
             var message = new MimeMessage();
             message.From.Add(request.From);
             message.Subject = request.Subject;
-            var builder = new BodyBuilder()
+            var builder = new BodyBuilder
             {
                 TextBody = request.Body, 
-                HtmlBody = request.HtmlBody?.ToHtmlString()
+                HtmlBody = request.HtmlBody?.ToString()
             };
 
             
@@ -125,9 +127,9 @@ namespace Geta.EmailNotification.Amazon
                 message.Body = builder.ToMessageBody();
                 message.WriteTo(messageStream);
                 
-                return new SendRawEmailRequest()
+                return new SendRawEmailRequest
                 {
-                    RawMessage = new RawMessage() { Data = messageStream }
+                    RawMessage = new RawMessage { Data = messageStream }
                 };
             }
         }

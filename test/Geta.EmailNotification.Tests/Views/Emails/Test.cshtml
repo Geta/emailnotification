@@ -1,5 +1,4 @@
 ﻿@using Geta.EmailNotification
-
 @model EmailNotificationRequest
 <html>
 <body>
@@ -8,10 +7,10 @@
         Dear @Model.To.First().Address
     </p>
     <p>
-        <a href="@Url.Absolute("~/")">This is a link</a>
+        <a href="www.google.com">This is a link</a>
     </p>
     <p>
-        <img src="@Url.Absolute("~/Content/dummy.png")" alt="" />
+        <img src="https://picsum.photos/id/237/200/300" alt="Sample image" />
     </p>
 </body>
 </html>

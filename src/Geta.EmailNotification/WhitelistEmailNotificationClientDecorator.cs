@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
 using MimeKit;
 
 namespace Geta.EmailNotification
@@ -43,7 +42,7 @@ namespace Geta.EmailNotification
             var result = new List<MailboxAddress>();
             foreach (var address in addressCollection)
             {
-                if (InWhitelist(address.Name))
+                if (InWhitelist(address.Address))
                 {
                     result.Add(address);
                 }

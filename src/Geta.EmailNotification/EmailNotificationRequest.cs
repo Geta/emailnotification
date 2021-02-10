@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNetCore.Html;
 using MimeKit;
 using AttachmentCollection = MimeKit.AttachmentCollection;
 
@@ -48,7 +48,7 @@ namespace Geta.EmailNotification
         /// <summary>
         /// HTML content for HTML emails
         /// </summary>
-        public IHtmlString HtmlBody { get; set; }
+        public HtmlString HtmlBody { get; set; }
 
         /// <summary>
         /// Text content for fallback or text only emails
@@ -56,7 +56,7 @@ namespace Geta.EmailNotification
         public string Body { get; set; }
 
         /// <summary>
-        /// Razor view name (without .cshtml)
+        /// Razor view path and name (without .cshtml). Example: Emails/Test
         /// </summary>
         public string ViewName { get; set; }
 

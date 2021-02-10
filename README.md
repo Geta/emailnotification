@@ -132,22 +132,22 @@ public class EmailNotificationResponse
 
 Examples
 --------
+### Sample email view.
 ```html
 @using Geta.EmailNotification
-
 @model EmailNotificationRequest
 <html>
 <body>
-    <p>Sent: @ViewBag.Date</p>
-    <p>
-        Dear @Model.To.First().Address
-    </p>
-    <p>
-        <a href="@Url.Absolute("~/")">This is a link</a>
-    </p>
-    <p>
-        <img src="@Url.Absolute("~/Content/dummy.png")" alt="" />
-    </p>
+<p>Sent: @ViewBag.Date</p>
+<p>
+    Dear @Model.To.First().Address
+</p>
+<p>
+    <a href="www.google.com">This is a link</a>
+</p>
+<p>
+    <img src="https://picsum.photos/id/237/200/300" alt="Sample image" />
+</p>
 </body>
 </html>
 ```
@@ -164,7 +164,7 @@ email.Bcc.Add(new MailboxAddress("andre", "andre@geta.no"));
 email.Cc.Add(new MailboxAddress("maris", "maris@geta.no"));
 email.Cc.Add(new MailboxAddress("mattias", "mattias@geta.no"));
 email.Subject = "Test email";
-email.ViewName = "Test";
+email.ViewName = "Emails/Test";
 email.ViewData.Add("Date", DateTime.UtcNow);
 
 client.Send(email);
@@ -182,7 +182,7 @@ var email = new EmailNotificationRequestBuilder()
                 .WithCc("maris@geta.no")
                 .WithCc("mattias@geta.no")
                 .WithSubject("Test email")
-                .WithViewName("Test")
+                .WithViewName("Emails/Test")
                 .WithViewData("Date", DateTime.UtcNow)
                 .Build();
 client.Send(email);
@@ -214,26 +214,30 @@ It is possible to enable an email whitelist feature. The email whitelist feature
 
 ### Configuration
 
-First of all, decorate _IEmailNotificationClient_ with _WhitelistEmailNotificationClientDecorator_. It can be achieved in the _StructureMap_ configuration.
+First of all, decorate _IEmailNotificationClient_ with _WhitelistEmailNotificationClientDecorator_.
 
 ```
-For<IEmailNotificationClient>().DecorateAllWith<WhitelistEmailNotificationClientDecorator>();
-For<IEmailNotificationClient>().Use<SmtpEmailNotificationClient>();
+services.AddScoped<SmtpEmailNotificationClient>();
+services.AddScoped<WhitelistConfiguration>();
+services.AddScoped<IEmailNotificationClient>(provider => 
+    new WhitelistEmailNotificationClientDecorator(provider.GetRequiredService<SmtpEmailNotificationClient>(),
+        provider.GetRequiredService<WhitelistConfiguration>()));
 ```
 
-Next step, configure a whitelist in the _appSettings_. Add an item with a key _EmailNotification:Whitelist_ and add whitelist values. Whitelist values can be emails or domains starting with @ sign. Separate those with semicolon (;).
+Next step, configure a whitelist in the _appSettings.json_. Add an item with a key _EmailNotification:Whitelist_ and add whitelist values. Whitelist values can be emails or domains starting with @ sign. Separate those with semicolon (;).
 
 ```
-<add key="EmailNotification:Whitelist" value="info@example.com;@geta.no" />
+"EmailNotification:Whitelist": "test@getadigital.com"
 ```
 
 ## Amazon
-When using the Amazon library you need to configure it using StructureMap.
+When using the Amazon library you need to configure it in Startup.cs.
 
 ```csharp
-For<IEmailNotificationClient>().Use<AmazonEmailNotificationClient>();
-For<IAsyncEmailNotificationClient>().Use<AmazonEmailNotificationClient>();
-For<IAmazonSimpleEmailService>().Use(ctx => 
+services.AddScoped<IAmazonMessageFactory, AmazonMessageFactory>();
+services.AddScoped<IAsyncEmailNotificationClient, AmazonEmailNotificationClient>();
+services.AddScoped<IEmailNotificationClient, AmazonEmailNotificationClient>();
+services.AddScoped<IAmazonSimpleEmailService>(ctx => 
                 new AmazonSimpleEmailServiceClient(
                     "access_key",
                     "secret_key",
@@ -242,25 +246,24 @@ For<IAmazonSimpleEmailService>().Use(ctx =>
 
 
 ## Postmark
-When using the Postmark library you need to configure it using StructureMap.
+When using the Postmark library you need to configure it in Startup.cs.
 
 ```csharp
-For<IEmailNotificationClient>().Use<PostmarkEmailNotificationClient>();
-For<PostmarkClient>().Use(() => new PostmarkClient(Configuration.Postmark.ApiKey, Configuration.Postmark.ApiBaseUri, Configuration.Postmark.TimeoutInSeconds));
-For<IPostmarkMessageFactory>().Use<PostmarkMessageFactory>();
+services.AddScoped<IEmailNotificationClient, PostmarkEmailNotificationClient>();
+services.AddScoped(_ => new PostmarkClient("server_token"));
+services.AddScoped<IPostmarkMessageFactory, PostmarkMessageFactory>();
 ```
 
 You can get the Postmark API key from https://account.postmarkapp.com. BaseUri is set to: https://api.postmarkapp.com and timeout to 30 seconds by default.
 
 ## MailGun
-Define and configure using StructureMap
+Define and configure in Startup.cs
 
 ```csharp
-For<IAsyncEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
-For<IEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
-For<IRestClient>().Use(ctx => new RestClient());
-For<MailGunCredentials>().Use(ctx => 
-                new MailGunCredentials("api_key","api_base_url"));
+services.AddScoped<IAsyncEmailNotificationClient, MailGunEmailNotificationClient>();
+services.AddScoped<IEmailNotificationClient, MailGunEmailNotificationClient>();
+services.AddScoped<IRestClient, RestClient>();
+services.AddScoped(_ => new MailGunCredentials("api_key", "api_url"));
 ```
 
 ApiKey and Domain can be found in MailGun Settings. BaseDomain sets test/live.
@@ -272,12 +275,13 @@ To use SendGrid in your project, you need to create a new sendgrid subuser and g
 3. Switch to that subuser account and create an Api Key with the privileges that you deem necessary.
 4. Store that api key in your favorite secure setting and use it to define and configure through StructureMap:
 ```csharp
-For<IAsyncEmailNotificationClient>().Use<SendGridEmailNotificationClient>(); // For async calls
-For<IEmailNotificationClient>().Use<SendGridEmailNotificationClient>(); // For sync calls
-For<ISendGridClient>().Use(ctx => new SendGridClient(<<Your_API_Key>>, "https://api.sendgrid.com", null,"v3", "/mail/send")); //the "/mail/send" url path is one of many endpoints that you can use. Set null for default.
+services.AddScoped<IAsyncEmailNotificationClient, SendGridEmailNotificationClient>();
+services.AddScoped<IEmailNotificationClient, SendGridEmailNotificationClient>();
+services.AddScoped<ISendGridClient>(ctx => new SendGridClient(<<Your_API_Key>>, "https://api.sendgrid.com", null,"v3", "/mail/send")); //the "/mail/send" url path is one of many endpoints that you can use. Set null for default.
 // Dont forget to register your viewengines and mailfactory as defined above:
-For<IEmailViewRenderer>().Use<EmailViewRenderer>(() => new EmailViewRenderer(new ViewEngineCollection { new RazorViewEngine() })); // if necessary to create a new view engine
-For<IMailMessageFactory>().Use<MailMessageFactory>();
+services.AddScoped<SendGridMessageFactory, SendGridMessageFactory>();
+services.AddScoped<IEmailViewRenderer, EmailViewRenderer>();
+            services.AddScoped<IMailMessageFactory, MailMessageFactory>();
 ```
 5. Check test project and follow the steps used to create sync or async e-mails.
 

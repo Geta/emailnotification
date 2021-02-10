@@ -1,5 +1,16 @@
 ﻿# Changelog
 
+## [3.0.0]
+
+### Changed
+- Fix issue #2 migrate to netstandard2.0
+- Add possiblity to use Views for emails for Amazon and Mailgun
+- Remove URlHelperExtensions
+- Add possibility to use Whitelists in async clients
+
+### Fixed
+- Fix broken whitelists introduced in 2.0.0
+
 ## [2.0.0]
 
 ### Changed
