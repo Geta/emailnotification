@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <Description>Test project for E-mail Notification services</Description>
     </PropertyGroup>
 
     <ItemGroup>

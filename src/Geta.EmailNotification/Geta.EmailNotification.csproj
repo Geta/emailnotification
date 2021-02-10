@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <Description>Email notification using SMTP</Description>
     </PropertyGroup>
 
     <ItemGroup>
