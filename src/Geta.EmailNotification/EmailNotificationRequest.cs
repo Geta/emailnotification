@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Web.Mvc;
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MimeKit;
 using AttachmentCollection = MimeKit.AttachmentCollection;
 
@@ -10,12 +11,12 @@ namespace Geta.EmailNotification
     {
         public EmailNotificationRequest()
         {
-            this.Attachments = new AttachmentCollection();
-            this.To = new List<MailboxAddress>();
-            this.Cc = new List<MailboxAddress>();
-            this.Bcc = new List<MailboxAddress>();
-            this.ReplyTo = new List<MailboxAddress>();
-            this.ViewData = new ViewDataDictionary(this);
+            Attachments = new AttachmentCollection();
+            To = new List<MailboxAddress>();
+            Cc = new List<MailboxAddress>();
+            Bcc = new List<MailboxAddress>();
+            ReplyTo = new List<MailboxAddress>();
+            ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
         }
 
         /// <summary>
