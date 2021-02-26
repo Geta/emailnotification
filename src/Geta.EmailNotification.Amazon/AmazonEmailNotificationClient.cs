@@ -27,7 +27,7 @@ namespace Geta.EmailNotification.Amazon
             try
             {
                 var amazonRequest = _amazonMessageFactory.Create(request);
-                var response = _simpleEmailServiceClient.SendRawEmail(amazonRequest);
+                var response = AsyncHelper.RunSync(() => _simpleEmailServiceClient.SendRawEmailAsync(amazonRequest));
 
                 return new EmailNotificationResponse
                 {
