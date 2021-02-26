@@ -7,7 +7,7 @@
 - Updates Amazon SDK for Geta.EmailNotifications.Amazon
 
 ### Fixed
-- Fix missing dependencies in nuspec files
+- Fix issue #11 missing dependencies in nuspec files
 
 ## [3.0.0]
 
