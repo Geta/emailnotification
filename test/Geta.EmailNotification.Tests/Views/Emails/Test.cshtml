@@ -12,5 +12,13 @@
     <p>
         <img src="https://picsum.photos/id/237/200/300" alt="Sample image" />
     </p>
+    @if (Model.ViewData != null)
+    {
+        <div>@foreach (var kvpair in @Model.ViewData)
+             {
+                 <p>@kvpair.Key ---- @kvpair.Value</p>
+             }
+        </div>
+    }
 </body>
 </html>

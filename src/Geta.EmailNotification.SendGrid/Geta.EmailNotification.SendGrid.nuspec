@@ -11,5 +11,13 @@
     <description>$description$</description>
     <tags>Geta Foundation Email Notification</tags>
     <repository type="git" url="URL" branch="BRANCH_NAME" commit="COMMIT" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Geta.EmailNotification" version="[3.0.1, 4.0)" />
+        <dependency id="MimeKit" version="[2.10.1, 3.0)" />
+        <dependency id="SendGrid" version="[9.22.0, 10.0)" />
+        <dependency id="log4net" version="[2.0.0, 3.0)" />
+      </group>
+    </dependencies>
   </metadata>
 </package>

@@ -1,5 +1,14 @@
 ﻿# Changelog
 
+## [3.0.1]
+
+### Changed
+- Remove dependency to Microsoft.AspNet.Mvc from Geta.EmailNotifications
+- Updates Amazon SDK for Geta.EmailNotifications.Amazon
+
+### Fixed
+- Fix issue #11 missing dependencies in nuspec files
+
 ## [3.0.0]
 
 ### Changed

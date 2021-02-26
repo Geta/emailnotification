@@ -42,6 +42,7 @@ namespace Geta.EmailNotification.Tests.Controllers
                     .WithSubject($"Async test e-mail using {asyncClient.ToString().Split('.').Last()}")
                     .WithAttachment(attachment)
                     .WithViewName("Emails/Test")
+                    .WithViewData("test","value")
                     .Build();
 
                 results.Add(new EmailNotificationResponseViewModel
