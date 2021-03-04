@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/Geta/emailnotification</projectUrl>
+    <iconUrl>http://cdn.geta.no/opensource/icons/mail-notification-icon-32x32.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <tags>Geta Foundation Email Notification</tags>
+    <repository type="git" url="URL" branch="BRANCH_NAME" commit="COMMIT" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="MailKit" version="[2.10.1, 3.0)"/>
+        <dependency id="Geta.EmailNotification.Common" version="[1.0.0, 2.0)" />
+        <dependency id="Microsoft.AspNet.Mvc" version="[5.2.7, 5.3)" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

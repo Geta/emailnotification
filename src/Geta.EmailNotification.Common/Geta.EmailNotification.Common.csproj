@@ -2,6 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <Description>Geta.EmailNotification.Common </Description>
+        <Authors>Geta</Authors>
+        <Copyright>Copyright Geta© 2021</Copyright>
+        <Title>Geta.EmailNotification.Common</Title>
     </PropertyGroup>
 
     <ItemGroup>
