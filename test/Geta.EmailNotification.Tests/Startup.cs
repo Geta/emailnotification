@@ -1,6 +1,7 @@
 using Amazon;
 using Amazon.SimpleEmail;
 using Geta.EmailNotification.Amazon;
+using Geta.EmailNotification.Common;
 using Geta.EmailNotification.MailGun;
 using Geta.EmailNotification.Postmark;
 using Geta.EmailNotification.SendGrid;

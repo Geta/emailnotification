@@ -9,7 +9,8 @@
       <ProjectReference Include="..\..\src\Geta.EmailNotification.Amazon\Geta.EmailNotification.Amazon.csproj" />
       <ProjectReference Include="..\..\src\Geta.EmailNotification.MailGun\Geta.EmailNotification.MailGun.csproj" />
       <ProjectReference Include="..\..\src\Geta.EmailNotification.Postmark\Geta.EmailNotification.Postmark.csproj" />
-      <ProjectReference Include="..\..\src\Geta.EmailNotification.SendGrid\Geta.EmailNotification.SendGrid.csproj" />  
+      <ProjectReference Include="..\..\src\Geta.EmailNotification.SendGrid\Geta.EmailNotification.SendGrid.csproj" />
+      <ProjectReference Include="..\..\src\Geta.EmailNotification\Geta.EmailNotification.csproj" />  
     </ItemGroup>
 
     <ItemGroup>

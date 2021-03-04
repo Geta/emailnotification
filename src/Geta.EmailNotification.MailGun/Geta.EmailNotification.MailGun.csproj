@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Geta.EmailNotification\Geta.EmailNotification.csproj" />
+      <ProjectReference Include="..\Geta.EmailNotification.Common\Geta.EmailNotification.Common.csproj" />
     </ItemGroup>
 
 </Project>
