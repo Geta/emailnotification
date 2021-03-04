@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <Description>Email notification using SMTP</Description>
+        <Description>Email notification using SMTP for .Net 5.0</Description>
         <PackageVersion>3.0.1</PackageVersion>
     </PropertyGroup>
 
