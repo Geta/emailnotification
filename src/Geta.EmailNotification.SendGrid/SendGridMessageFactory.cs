@@ -8,7 +8,7 @@ namespace Geta.EmailNotification.SendGrid
 
         public SendGridMessage CreateSendGridMessage(EmailNotificationRequest notification)
         {
-            var message = base.Create(notification);
+            var message = Create(notification);
             var sendGridMessage = message.ConvertToSendGridMessage();
 
             return sendGridMessage;

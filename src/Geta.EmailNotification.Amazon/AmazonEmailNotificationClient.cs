@@ -98,7 +98,7 @@ namespace Geta.EmailNotification.Amazon
             var builder = new BodyBuilder
             {
                 TextBody = request.Body, 
-                HtmlBody = request.HtmlBody?.ToString()
+                HtmlBody = request.HtmlBody
             };
 
             

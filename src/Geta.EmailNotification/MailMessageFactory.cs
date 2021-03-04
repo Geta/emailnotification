@@ -81,9 +81,9 @@ namespace Geta.EmailNotification
                 return AsyncHelper.RunSync(() => _renderer.RenderAsync(request));
             }
 
-            if (!string.IsNullOrEmpty(request.HtmlBody?.ToString()))
+            if (!string.IsNullOrEmpty(request.HtmlBody))
             {
-                return request.HtmlBody.ToString();
+                return request.HtmlBody;
             }
 
             isHtml = false;

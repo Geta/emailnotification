@@ -59,7 +59,7 @@ namespace Geta.EmailNotification.Tests.Controllers
                     .WithFrom("zbigniew.winiarski@getadigital.com")
                     .WithSubject($"Sync test e-mail using {syncClient.ToString().Split('.').Last()}")
                     .Build();
-                testEmail.HtmlBody = new HtmlString("This is a test email <strong>using HtmlBody</strong>.");
+                testEmail.HtmlBody = new HtmlString("This is a test email <strong>using HtmlBody</strong>.").ToString();
 
                 results.Add(new EmailNotificationResponseViewModel
                 {
