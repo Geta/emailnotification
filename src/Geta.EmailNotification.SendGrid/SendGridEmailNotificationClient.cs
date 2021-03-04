@@ -11,7 +11,6 @@ namespace Geta.EmailNotification.SendGrid
     {
         private readonly ISendGridClient _sendGridClient;
         private readonly SendGridMessageFactory _mailMessageFactory;
-        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(SendGridEmailNotificationClient));
 
         public SendGridEmailNotificationClient(ISendGridClient sendGridClient, SendGridMessageFactory mailMessageFactory)
         {
@@ -36,20 +35,19 @@ namespace Geta.EmailNotification.SendGrid
             {
                 var emails = request.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
-                Log.Error($"Email failed to: {emailsSerialized}. Subject: {request.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {
-                    Message = ex.Message
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} Error {ex.Message}."
                 };
             }
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequestBase emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequestBase request)
         {
             try
             {
-                var message = _mailMessageFactory.CreateSendGridMessage(emailNotificationRequest);
+                var message = _mailMessageFactory.CreateSendGridMessage(request);
 
                 var response = AsyncHelper.RunSync(() => _sendGridClient.SendEmailAsync(message));
 
@@ -61,13 +59,12 @@ namespace Geta.EmailNotification.SendGrid
             }
             catch (Exception ex)
             {
-                var emails = emailNotificationRequest.To?.Select(s => s?.Address);
+                var emails = request.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
-                Log.Error($"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject}.", ex);
-                
+
                 return new EmailNotificationResponse
                 {
-                    Message = ex.Message
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} Error {ex.Message}."
                 };
             }
         }

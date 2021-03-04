@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 using Geta.EmailNotification.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +35,7 @@ namespace Geta.EmailNotification.Core
         /// </summary>
         /// <param name="email">The email to render.</param>
         /// <returns>The rendered email view output.</returns>
-        public async Task<string> RenderAsync(EmailNotificationRequestBase email)
+        public string Render(EmailNotificationRequestBase email)
         {
             var viewName = email.ViewName;
             var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
@@ -65,7 +64,7 @@ namespace Geta.EmailNotification.Core
                     new HtmlHelperOptions()
                 );
      
-                await viewResult.View.RenderAsync(viewContext);
+                AsyncHelper.RunSync(() => viewResult.View.RenderAsync(viewContext));
                 return sw.ToString();
             }
         }

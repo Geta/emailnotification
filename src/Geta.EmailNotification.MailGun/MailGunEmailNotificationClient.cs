@@ -9,7 +9,6 @@ namespace Geta.EmailNotification.MailGun
 {   
     public class MailGunEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {
-        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(MailGunEmailNotificationClient));
         private readonly MailGunCredentials _mailGunCredentials;
         private readonly IMailGunMessageFactory _mailGunMessageFactory;
         private readonly IRestClient _restClient;
@@ -44,11 +43,10 @@ namespace Geta.EmailNotification.MailGun
             {
                 var emails = emailNotificationRequest.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
-                Log.Error($"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {
-                    Message = ex.Message
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject} Error {ex.Message}."
                 };
             }
         }
@@ -73,11 +71,10 @@ namespace Geta.EmailNotification.MailGun
             {
                 var emails = emailNotificationRequest.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
-                Log.Error($"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {
-                    Message = ex.Message
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject} Error {ex.Message}."
                 };
             }
         }

@@ -11,7 +11,6 @@ namespace Geta.EmailNotification.Amazon
     {
         private readonly IAmazonSimpleEmailService _simpleEmailServiceClient;
         private readonly IAmazonMessageFactory _amazonMessageFactory;
-        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(AmazonEmailNotificationClient));
 
         public AmazonEmailNotificationClient(IAmazonSimpleEmailService simpleEmailServiceClient,
             IAmazonMessageFactory amazonMessageFactory)
@@ -36,11 +35,10 @@ namespace Geta.EmailNotification.Amazon
             {
                 var emails = request.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
-                Log.Error($"Email failed to: {emailsSerialized}. Subject: {request.Subject}.", ex);
-                
+
                 return new EmailNotificationResponse
                 {
-                    Message = ex.Message
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} Error {ex.Message}."
                 };
             }
         }
@@ -62,11 +60,10 @@ namespace Geta.EmailNotification.Amazon
             {
                 var emails = request.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
-                Log.Error($"Email failed to: {emailsSerialized}. Subject: {request.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {
-                    Message = ex.Message
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} Error {ex.Message}."
                 };
             }
         }
