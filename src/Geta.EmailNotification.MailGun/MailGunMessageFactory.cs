@@ -1,4 +1,5 @@
-﻿using Geta.EmailNotification.MailGun.Extensions;
+﻿using Geta.EmailNotification.Common;
+using Geta.EmailNotification.MailGun.Extensions;
 using RestSharp;
 
 namespace Geta.EmailNotification.MailGun
@@ -12,7 +13,7 @@ namespace Geta.EmailNotification.MailGun
             _mailMessageFactory = mailMessageFactory;
         }
         
-        public RestRequest Create(EmailNotificationRequest request)
+        public RestRequest Create(EmailNotificationRequestBase request)
         {
             return _mailMessageFactory.Create(request).ToRestRequest();
         }

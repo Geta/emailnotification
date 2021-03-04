@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Geta.EmailNotification.Common;
 using PostmarkDotNet;
 
 namespace Geta.EmailNotification.Postmark
@@ -10,8 +11,7 @@ namespace Geta.EmailNotification.Postmark
     {
         private readonly PostmarkClient _postmarkClient;
         private readonly IPostmarkMessageFactory _postmarkMessageFactory;
-        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(PostmarkEmailNotificationClient));
-        
+
         public PostmarkEmailNotificationClient(
             PostmarkClient postmarkClient, IPostmarkMessageFactory postmarkMessageFactory)
         {
@@ -19,7 +19,7 @@ namespace Geta.EmailNotification.Postmark
             _postmarkMessageFactory = postmarkMessageFactory;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest request)
+        public EmailNotificationResponse Send(EmailNotificationRequestBase request)
         {
             try
             {
@@ -37,16 +37,15 @@ namespace Geta.EmailNotification.Postmark
             {
                 var emails = request.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
-                Log.Error($"Email failed to: {emailsSerialized}. Subject: {request.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {
-                    Message = ex.Message
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} Error {ex.Message}."
                 };
             }
         }
 
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest request)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase request)
         {
             try
             {
@@ -64,11 +63,10 @@ namespace Geta.EmailNotification.Postmark
             {
                 var emails = request.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
-                Log.Error($"Email failed to: {emailsSerialized}. Subject: {request.Subject}.", ex);
 
                 return new EmailNotificationResponse
                 {
-                    Message = ex.Message
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} Error {ex.Message}."
                 };
             }
         }

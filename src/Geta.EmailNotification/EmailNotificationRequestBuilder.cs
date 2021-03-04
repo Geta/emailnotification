@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Web.Mvc;
 using MimeKit;
-using AttachmentCollection = MimeKit.AttachmentCollection;
 
 namespace Geta.EmailNotification
 {

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Description>Test project for E-mail Notification services</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Geta.EmailNotification.Amazon\Geta.EmailNotification.Amazon.csproj" />
+      <ProjectReference Include="..\..\src\Geta.EmailNotification.Core\Geta.EmailNotification.Core.csproj" />
+      <ProjectReference Include="..\..\src\Geta.EmailNotification.MailGun\Geta.EmailNotification.MailGun.csproj" />
+      <ProjectReference Include="..\..\src\Geta.EmailNotification.Postmark\Geta.EmailNotification.Postmark.csproj" />
+      <ProjectReference Include="..\..\src\Geta.EmailNotification.SendGrid\Geta.EmailNotification.SendGrid.csproj" />  
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Postmark" Version="4.5.0" />
+    </ItemGroup>
+
+</Project>

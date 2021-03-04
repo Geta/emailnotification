@@ -13,13 +13,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="log4net" Version="2.0.12" />
       <PackageReference Include="MailKit" Version="2.10.1" />
       <PackageReference Include="Postmark" Version="4.5.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Geta.EmailNotification\Geta.EmailNotification.csproj" />
+      <ProjectReference Include="..\Geta.EmailNotification.Common\Geta.EmailNotification.Common.csproj" />
     </ItemGroup>
 
 </Project>

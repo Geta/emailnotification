@@ -1,28 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Geta.EmailNotification.Tests.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using Geta.EmailNotification.Common;
 using Geta.EmailNotification.Tests.Helpers;
-using Geta.EmailNotification.Tests.Models;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc;
 using MimeKit;
+using MimePart = MimeKit.MimePart;
 
 namespace Geta.EmailNotification.Tests.Controllers
 {
+    /// <summary>
+    /// Examples and tests using SmtpEmailNotificationClient, PostmarkEmailNotificationClient, AmazonEmailNotificationClient
+    /// Using attachments, html and text emails
+    /// Using views with placeholders for html body
+    /// embed images and rewrite relative urls to absolute urls
+    /// Show configuration of different clients
+    /// </summary>
     public class HomeController : Controller
     {
-        private readonly IEnumerable<IAsyncEmailNotificationClient> _asyncClients;
-        private readonly IEnumerable<IEmailNotificationClient> _syncClients;
+        private readonly IAsyncEmailNotificationClient[] _asyncClients;
+        private readonly IEmailNotificationClient[] _syncClients;
 
-        public HomeController(IEnumerable<IAsyncEmailNotificationClient> asyncClients, 
-            IEnumerable<IEmailNotificationClient> syncClients)
+        public HomeController(IAsyncEmailNotificationClient[] asyncClients, IEmailNotificationClient[] syncClients)
         {
             _asyncClients = asyncClients;
             _syncClients = syncClients;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult> Index()
         {
             var results = new List<EmailNotificationResponseViewModel>();
                 
@@ -41,7 +48,7 @@ namespace Geta.EmailNotification.Tests.Controllers
                     .WithFrom("zbigniew.winiarski@getadigital.com")
                     .WithSubject($"Async test e-mail using {asyncClient.ToString().Split('.').Last()}")
                     .WithAttachment(attachment)
-                    .WithViewName("Emails/Test")
+                    .WithViewName("Test")
                     .WithViewData("test","value")
                     .Build();
 
@@ -59,7 +66,7 @@ namespace Geta.EmailNotification.Tests.Controllers
                     .WithFrom("zbigniew.winiarski@getadigital.com")
                     .WithSubject($"Sync test e-mail using {syncClient.ToString().Split('.').Last()}")
                     .Build();
-                testEmail.HtmlBody = new HtmlString("This is a test email <strong>using HtmlBody</strong>.");
+                testEmail.HtmlBody = new HtmlString("This is a test email <strong>using HtmlBody</strong>.").ToString();
 
                 results.Add(new EmailNotificationResponseViewModel
                 {
@@ -69,17 +76,6 @@ namespace Geta.EmailNotification.Tests.Controllers
             }
 
             return View(results);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
     }
 }
