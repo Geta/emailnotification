@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Tests", "test\Geta.EmailNotification.Tests\Geta.EmailNotification.Tests.csproj", "{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Common", "src\Geta.EmailNotification.Common\Geta.EmailNotification.Common.csproj", "{12E98678-9A38-4187-B701-ED99068D4EF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12E98678-9A38-4187-B701-ED99068D4EF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E98678-9A38-4187-B701-ED99068D4EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E98678-9A38-4187-B701-ED99068D4EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E98678-9A38-4187-B701-ED99068D4EF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Amazon.SimpleEmail;
-using Amazon.SimpleEmail.Model;
-using MimeKit;
+using Geta.EmailNotification.Common;
 
 namespace Geta.EmailNotification.Amazon
 {
@@ -22,7 +20,7 @@ namespace Geta.EmailNotification.Amazon
             _amazonMessageFactory = amazonMessageFactory;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest request)
+        public EmailNotificationResponse Send(EmailNotificationRequestBase request)
         {
             try
             {
@@ -47,7 +45,7 @@ namespace Geta.EmailNotification.Amazon
             }
         }
 
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest request)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase request)
         {
             try
             {
@@ -69,67 +67,6 @@ namespace Geta.EmailNotification.Amazon
                 return new EmailNotificationResponse
                 {
                     Message = ex.Message
-                };
-            }
-        }
-
-        private static SendRawEmailRequest CreateRequest(EmailNotificationRequest request)
-        {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request), "EmailNotificationRequest cannot be null");
-            }
-
-            if (request.To == null)
-            {
-                throw new ArgumentNullException(
-                    $"{nameof(request)}.{nameof(request.To)}", "To email address cannot be null");
-            }
-
-            if (request.From == null)
-            {
-                throw new ArgumentNullException(
-                    $"{nameof(request)}.{nameof(request.From)}", "From email address cannot be null");
-            }
-
-            var message = new MimeMessage();
-            message.From.Add(request.From);
-            message.Subject = request.Subject;
-            var builder = new BodyBuilder
-            {
-                TextBody = request.Body, 
-                HtmlBody = request.HtmlBody
-            };
-
-            
-            foreach (var mailAddress in request.To)
-            {
-                message.To.Add(mailAddress);
-            }
-
-            foreach (var mailAddress in request.Cc)
-            {
-                message.Cc.Add(mailAddress);
-            }
-
-            foreach (var mailAddress in request.Bcc)
-            {
-                message.Bcc.Add(mailAddress);
-            }
-
-            foreach (var attachment in request.Attachments)
-            {
-                builder.Attachments.Add(attachment);
-            }
-
-            using (var messageStream = new MemoryStream())
-            {
-                message.Body = builder.ToMessageBody();
-                message.WriteTo(messageStream);
-                
-                return new SendRawEmailRequest
-                {
-                    RawMessage = new RawMessage { Data = messageStream }
                 };
             }
         }

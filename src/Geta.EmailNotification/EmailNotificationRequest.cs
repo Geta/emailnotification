@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Geta.EmailNotification.Common;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MimeKit;

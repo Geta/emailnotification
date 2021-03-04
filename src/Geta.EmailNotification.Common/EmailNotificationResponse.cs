@@ -1,4 +1,4 @@
-﻿namespace Geta.EmailNotification
+﻿namespace Geta.EmailNotification.Common
 {
     public class EmailNotificationResponse
     {

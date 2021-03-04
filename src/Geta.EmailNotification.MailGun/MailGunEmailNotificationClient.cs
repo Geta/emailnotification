@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Geta.EmailNotification.Common;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -22,7 +23,7 @@ namespace Geta.EmailNotification.MailGun
             _restClient = restClient;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequestBase emailNotificationRequest)
         {
             try
             {
@@ -51,7 +52,7 @@ namespace Geta.EmailNotification.MailGun
                 };
             }
         }
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest emailNotificationRequest)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase emailNotificationRequest)
         {
             try
             {

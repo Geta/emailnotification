@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MimeKit;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Common
 {
     public class MailMessageFactory : IMailMessageFactory
     {
@@ -14,7 +14,7 @@ namespace Geta.EmailNotification
             _renderer = renderer;
         }
 
-        public MimeMessage Create(EmailNotificationRequest request)
+        public MimeMessage Create(EmailNotificationRequestBase request)
         {
             if (request == null)
             {
@@ -73,7 +73,7 @@ namespace Geta.EmailNotification
             }
         }
 
-        private string CreateBody(EmailNotificationRequest request, out bool isHtml)
+        private string CreateBody(EmailNotificationRequestBase request, out bool isHtml)
         {
             isHtml = true;
             if (!string.IsNullOrWhiteSpace(request.ViewName))

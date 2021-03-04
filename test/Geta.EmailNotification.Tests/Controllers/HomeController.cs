@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Geta.EmailNotification.Common;
 using Geta.EmailNotification.Tests.Helpers;
 using Geta.EmailNotification.Tests.Models;
 using Microsoft.AspNetCore.Html;

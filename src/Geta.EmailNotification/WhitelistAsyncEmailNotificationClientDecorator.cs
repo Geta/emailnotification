@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Geta.EmailNotification.Common;
 using MimeKit;
 
 namespace Geta.EmailNotification
@@ -19,7 +20,7 @@ namespace Geta.EmailNotification
             _whitelistConfiguration = whitelistConfiguration;
         }
 
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest emailNotificationRequest)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase emailNotificationRequest)
         {
             if (emailNotificationRequest == null)
             {

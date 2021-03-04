@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Geta.EmailNotification.Common\Geta.EmailNotification.Common.csproj" />
       <ProjectReference Include="..\Geta.EmailNotification\Geta.EmailNotification.csproj" />
     </ItemGroup>
 

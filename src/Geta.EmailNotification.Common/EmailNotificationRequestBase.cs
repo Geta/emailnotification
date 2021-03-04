@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using MimeKit;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Common
 {
-    public class EmailNotificationRequestBase
+    public abstract class EmailNotificationRequestBase
     {
         /// <summary>
         /// From email address

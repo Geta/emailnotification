@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Common
 {
     /// <summary>
     /// Renders an email view.
@@ -12,6 +12,6 @@ namespace Geta.EmailNotification
         /// </summary>
         /// <param name="email">The email data to pass to the view.</param>
         /// <returns>The string result of rendering the email.</returns>
-        Task<string> RenderAsync(EmailNotificationRequest email);
+        Task<string> RenderAsync(EmailNotificationRequestBase email);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Geta.EmailNotification.Common;
 
 namespace Geta.EmailNotification.SendGrid
 {
@@ -18,7 +19,7 @@ namespace Geta.EmailNotification.SendGrid
             _mailMessageFactory = mailMessageFactory;
         }
 
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest request)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase request)
         {
             try
             {
@@ -44,7 +45,7 @@ namespace Geta.EmailNotification.SendGrid
             }
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequestBase emailNotificationRequest)
         {
             try
             {

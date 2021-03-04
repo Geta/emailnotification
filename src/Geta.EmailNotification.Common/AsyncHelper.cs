@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Common
 {
     /// <summary>
     /// Credits: http://stackoverflow.com/questions/9343594/how-to-call-asynchronous-method-from-synchronous-method-in-c

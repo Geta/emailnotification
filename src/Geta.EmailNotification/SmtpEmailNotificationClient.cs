@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Geta.EmailNotification.Common;
 using MailKit.Net.Smtp;
 
 namespace Geta.EmailNotification
@@ -14,7 +15,7 @@ namespace Geta.EmailNotification
             _mailMessageFactory = mailMessageFactory;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequestBase emailNotificationRequest)
         {
             var response = new EmailNotificationResponse();
 
@@ -37,7 +38,7 @@ namespace Geta.EmailNotification
             return response;
         }
 
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest request)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase request)
         {
             var response = new EmailNotificationResponse();
 
