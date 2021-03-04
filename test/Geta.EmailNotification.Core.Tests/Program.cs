@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Geta.EmailNotification.Tests
+namespace Geta.EmailNotification.Core.Tests
 {
     public class Program
     {

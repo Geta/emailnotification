@@ -14,7 +14,7 @@ using PostmarkDotNet;
 using RestSharp;
 using SendGrid;
 
-namespace Geta.EmailNotification.Tests
+namespace Geta.EmailNotification.Core.Tests
 {
     public class Startup
     {
@@ -38,13 +38,13 @@ namespace Geta.EmailNotification.Tests
             services.AddScoped<IRestClient, RestClient>();
             
             //Async notification
-            //services.AddScoped<IAsyncEmailNotificationClient, SendGridEmailNotificationClient>();
+            services.AddScoped<IAsyncEmailNotificationClient, SendGridEmailNotificationClient>();
             //services.AddScoped<IAsyncEmailNotificationClient, PostmarkEmailNotificationClient>();
             //services.AddScoped<IAsyncEmailNotificationClient, MailGunEmailNotificationClient>();
             //services.AddScoped<IAsyncEmailNotificationClient, AmazonEmailNotificationClient>();
             
             //Sync notification
-            //services.AddScoped<IEmailNotificationClient, SendGridEmailNotificationClient>();
+            services.AddScoped<IEmailNotificationClient, SendGridEmailNotificationClient>();
             //services.AddScoped<IEmailNotificationClient, PostmarkEmailNotificationClient>();
             //services.AddScoped<IEmailNotificationClient, MailGunEmailNotificationClient>();
             //services.AddScoped<IEmailNotificationClient, AmazonEmailNotificationClient>();

@@ -4,7 +4,7 @@ using System.Linq;
 using Geta.EmailNotification.Common;
 using MimeKit;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Core
 {
     public class WhitelistEmailNotificationClientDecorator : IEmailNotificationClient
     {

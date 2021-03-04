@@ -1,6 +1,6 @@
 ﻿using Geta.EmailNotification.Common;
 
-namespace Geta.EmailNotification.Tests.Models
+namespace Geta.EmailNotification.Core.Tests.Models
 {
     public class EmailNotificationResponseViewModel
     {

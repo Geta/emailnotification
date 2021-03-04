@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Geta.EmailNotification.Common;
 using MailKit.Net.Smtp;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Core
 {
     public class SmtpEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {

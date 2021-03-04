@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MimeKit;
 using AttachmentCollection = MimeKit.AttachmentCollection;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Core
 {
     public class EmailNotificationRequestBuilder
     {

@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Core
 {
     public class WhitelistConfiguration
     {

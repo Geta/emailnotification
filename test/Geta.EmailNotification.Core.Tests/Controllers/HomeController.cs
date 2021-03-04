@@ -3,13 +3,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Geta.EmailNotification.Common;
-using Geta.EmailNotification.Tests.Helpers;
-using Geta.EmailNotification.Tests.Models;
+using Geta.EmailNotification.Core.Tests.Helpers;
+using Geta.EmailNotification.Core.Tests.Models;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 
-namespace Geta.EmailNotification.Tests.Controllers
+namespace Geta.EmailNotification.Core.Tests.Controllers
 {
     public class HomeController : Controller
     {

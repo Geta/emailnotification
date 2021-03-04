@@ -1,4 +1,4 @@
-namespace Geta.EmailNotification.Tests.Models
+namespace Geta.EmailNotification.Core.Tests.Models
 {
     public class ErrorViewModel
     {

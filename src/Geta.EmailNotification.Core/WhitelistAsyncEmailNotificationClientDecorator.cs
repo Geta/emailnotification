@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Geta.EmailNotification.Common;
 using MimeKit;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Core
 {
     public class WhitelistAsyncEmailNotificationClientDecorator : IAsyncEmailNotificationClient
     {

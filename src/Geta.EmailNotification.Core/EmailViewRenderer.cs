@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 
-namespace Geta.EmailNotification
+namespace Geta.EmailNotification.Core
 {
     /// <summary>
     /// Renders <see cref="Email"/> view's into raw strings using the MVC ViewEngine infrastructure.

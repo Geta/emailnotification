@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Geta.EmailNotification.Tests.Helpers
+namespace Geta.EmailNotification.Core.Tests.Helpers
 {
     public static class StreamHelper
     {
