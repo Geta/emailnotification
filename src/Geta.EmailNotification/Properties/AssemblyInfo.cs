@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Geta.EmailNotification")]
-[assembly: AssemblyDescription("Email notification using SMTP")]
+[assembly: AssemblyDescription("Email notification using SMTP for .Net framework projects")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Geta")]
 [assembly: AssemblyProduct("Geta.EmailNotification")]
