@@ -8,20 +8,19 @@ namespace Geta.EmailNotification.Core
     public class SmtpEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {
         private readonly IMailMessageFactory _mailMessageFactory;
-        private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(typeof(SmtpEmailNotificationClient));
 
         public SmtpEmailNotificationClient(IMailMessageFactory mailMessageFactory)
         {
             _mailMessageFactory = mailMessageFactory;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequestBase emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequestBase request)
         {
             var response = new EmailNotificationResponse();
 
             try
             {
-                var mail = _mailMessageFactory.Create(emailNotificationRequest);
+                var mail = _mailMessageFactory.Create(request);
                 using (var client = new SmtpClient())
                 {
                     client.Send(mail);
@@ -31,8 +30,7 @@ namespace Geta.EmailNotification.Core
             }
             catch (Exception e)
             {
-                response.Message = e.Message;
-                Log.Error($"Email failed to: {emailNotificationRequest.To}. Subject: {emailNotificationRequest.Subject}", e);
+                response.Message = $"Email failed to: {request.To}. Subject: {request.Subject} Error {e.Message}.";
             }
 
             return response;
@@ -54,8 +52,7 @@ namespace Geta.EmailNotification.Core
             }
             catch (Exception e)
             {
-                response.Message = e.Message;
-                Log.Error($"Email failed to: {request.To}. Subject: {request.Subject}", e);
+                response.Message = $"Email failed to: {request.To}. Subject: {request.Subject} Error {e.Message}.";
             }
 
             return response;
