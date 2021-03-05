@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Geta.EmailNotification.Common;
 using MailKit.Net.Smtp;
 
-namespace Geta.EmailNotification.Core
+namespace Geta.EmailNotification.Common
 {
     public class SmtpEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {
