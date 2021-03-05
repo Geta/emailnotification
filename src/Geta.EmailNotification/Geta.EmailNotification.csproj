@@ -36,6 +36,7 @@
     <Compile Include="EmailNotificationRequestBuilder.cs" />
     <Compile Include="EmailViewRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlHelperExtension.cs" />
     <Compile Include="WhitelistAsyncEmailNotificationClientDecorator.cs" />
     <Compile Include="WhitelistConfiguration.cs" />
     <Compile Include="WhitelistEmailNotificationClientDecorator.cs" />
