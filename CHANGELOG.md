@@ -1,5 +1,13 @@
 ﻿# Changelog
 
+## [4.0.0]
+
+### Changed
+- Add Geta.EmailNotification.Common library which holds common interfaces and logic
+- Add Geta.EmailNotifications.Core for .Net5.0 projects
+- Geta.EmailNotifications is dedicated to .NetFramework projects
+- Remove dependencies to log4net
+
 ## [3.0.1]
 
 ### Changed
