@@ -5,6 +5,14 @@ namespace Geta.EmailNotification.Common
 {
     public abstract class EmailNotificationRequestBase
     {
+        protected EmailNotificationRequestBase()
+        {
+            Attachments = new AttachmentCollection();
+            To = new List<MailboxAddress>();
+            Cc = new List<MailboxAddress>();
+            Bcc = new List<MailboxAddress>();
+            ReplyTo = new List<MailboxAddress>();
+        }
         /// <summary>
         /// From email address
         /// </summary>
