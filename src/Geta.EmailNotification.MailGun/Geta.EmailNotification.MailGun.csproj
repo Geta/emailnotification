@@ -6,10 +6,10 @@
         <RootNamespace>Geta.EmailNotification.MailGun</RootNamespace>
         <PackageId>Geta.EmailNotification.MailGun</PackageId>
         <Title>Geta.EmailNotification.MailGun</Title>
-        <Authors>Geta</Authors>
+        <Authors>Geta Digital</Authors>
         <Description>Email notification using MailGun API</Description>
         <Copyright>Copyright Geta© 2021</Copyright>
-        <Company>Geta</Company>
+        <Company>Geta Digital</Company>
         <Product>Geta.EmailNotification.MailGun</Product>
     </PropertyGroup>
 

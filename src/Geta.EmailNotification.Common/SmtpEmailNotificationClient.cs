@@ -4,6 +4,9 @@ using MailKit.Net.Smtp;
 
 namespace Geta.EmailNotification.Common
 {
+    /// <summary>
+    /// Sends an using SMTP (MailKit.Net.Smtp).
+    /// </summary>
     public class SmtpEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {
         private readonly IMailMessageFactory _mailMessageFactory;
@@ -13,6 +16,11 @@ namespace Geta.EmailNotification.Common
             _mailMessageFactory = mailMessageFactory;
         }
 
+        /// <summary>
+        /// Sends email synchronously
+        /// </summary>
+        /// <param name="request">Email request data</param>
+        /// <returns>Email notification response data</returns>
         public EmailNotificationResponse Send(EmailNotificationRequestBase request)
         {
             var response = new EmailNotificationResponse();
@@ -35,6 +43,11 @@ namespace Geta.EmailNotification.Common
             return response;
         }
 
+        /// <summary>
+        /// Sends email asynchronously
+        /// </summary>
+        /// <param name="request">Email request data</param>
+        /// <returns>Email notification response data</returns>
         public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase request)
         {
             var response = new EmailNotificationResponse();

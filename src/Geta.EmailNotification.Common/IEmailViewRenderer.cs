@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Geta.EmailNotification.Common
+﻿namespace Geta.EmailNotification.Common
 {
     /// <summary>
     /// Renders an email view.

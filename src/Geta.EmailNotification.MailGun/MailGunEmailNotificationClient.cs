@@ -46,7 +46,8 @@ namespace Geta.EmailNotification.MailGun
 
                 return new EmailNotificationResponse
                 {
-                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject} Error {ex.Message}."
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject} " +
+                              $"Error: {ex.Message}. Stacktrace: {ex.StackTrace}"
                 };
             }
         }
@@ -74,7 +75,8 @@ namespace Geta.EmailNotification.MailGun
 
                 return new EmailNotificationResponse
                 {
-                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject} Error {ex.Message}."
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject} " +
+                              $"Error: {ex.Message}. Stacktrace: {ex.StackTrace}"
                 };
             }
         }

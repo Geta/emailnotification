@@ -5,6 +5,9 @@ using MimeKit;
 
 namespace Geta.EmailNotification.Common
 {
+    /// <summary>
+    /// Creates MIME massage
+    /// </summary>
     public class MailMessageFactory : IMailMessageFactory
     {
         private readonly IEmailViewRenderer _renderer;
@@ -14,6 +17,11 @@ namespace Geta.EmailNotification.Common
             _renderer = renderer;
         }
 
+        /// <summary>
+        /// Creates MIME massage from EmailNotificationRequest.
+        /// </summary>
+        /// <param name="request">Email request data.</param>
+        /// <returns>MIME message object from MimeKit package.</returns>
         public MimeMessage Create(EmailNotificationRequestBase request)
         {
             if (request == null)

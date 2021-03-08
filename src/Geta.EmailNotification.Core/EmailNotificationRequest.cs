@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Geta.EmailNotification.Common;
+﻿using Geta.EmailNotification.Common;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using MimeKit;
-using AttachmentCollection = MimeKit.AttachmentCollection;
 
 namespace Geta.EmailNotification.Core
 {
@@ -11,11 +8,6 @@ namespace Geta.EmailNotification.Core
     {
         public EmailNotificationRequest()
         {
-            Attachments = new AttachmentCollection();
-            To = new List<MailboxAddress>();
-            Cc = new List<MailboxAddress>();
-            Bcc = new List<MailboxAddress>();
-            ReplyTo = new List<MailboxAddress>();
             ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary());
         }
 
