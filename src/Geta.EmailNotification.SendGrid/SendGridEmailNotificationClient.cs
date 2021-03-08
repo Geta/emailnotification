@@ -38,7 +38,8 @@ namespace Geta.EmailNotification.SendGrid
 
                 return new EmailNotificationResponse
                 {
-                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} Error {ex.Message}."
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} " +
+                              $"Error: {ex.Message}. Stacktrace: {ex.StackTrace}"
                 };
             }
         }
@@ -64,7 +65,8 @@ namespace Geta.EmailNotification.SendGrid
 
                 return new EmailNotificationResponse
                 {
-                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} Error {ex.Message}."
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} " +
+                              $"Error: {ex.Message}. Stacktrace: {ex.StackTrace}"
                 };
             }
         }
