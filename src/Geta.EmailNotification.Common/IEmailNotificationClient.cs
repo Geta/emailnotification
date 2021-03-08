@@ -2,6 +2,11 @@
 {
     public interface IEmailNotificationClient
     {
-        EmailNotificationResponse Send(EmailNotificationRequestBase emailNotificationRequest);
+        /// <summary>
+        /// Sends email synchronously
+        /// </summary>
+        /// <param name="request">Email request data</param>
+        /// <returns>Email notification response data</returns>
+        EmailNotificationResponse Send(EmailNotificationRequestBase request);
     }
 }
