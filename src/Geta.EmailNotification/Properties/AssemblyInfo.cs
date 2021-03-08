@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Geta.EmailNotification")]
 [assembly: AssemblyDescription("Email notification using SMTP for .Net framework projects")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Geta")]
+[assembly: AssemblyCompany("Geta Digital")]
 [assembly: AssemblyProduct("Geta.EmailNotification")]
 [assembly: AssemblyCopyright("Copyright Geta© 2021")]
 [assembly: AssemblyTrademark("")]

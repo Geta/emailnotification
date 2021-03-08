@@ -5,10 +5,10 @@
         <AssemblyName>Geta.EmailNotification.Amazon</AssemblyName>
         <RootNamespace>Geta.EmailNotification.Amazon</RootNamespace>
         <Title>Geta.EmailNotification.Amazon</Title>
-        <Authors>Geta</Authors>
+        <Authors>Geta Digital</Authors>
         <Description>Email notification using Amazon SES</Description>
         <Copyright>Copyright Geta© 2021</Copyright>
-        <Company>Geta</Company>
+        <Company>Geta Digital</Company>
     </PropertyGroup>
 
     <ItemGroup>

@@ -4,10 +4,10 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <PackageId>Geta.EmailNotification.SendGrid</PackageId>
         <Title>Geta.EmailNotification.SendGrid</Title>
-        <Authors />
+        <Authors>Geta Digital</Authors>
         <Description>Email notification using SendGrid v3 API</Description>
         <Copyright>Copyright Geta©  2021</Copyright>
-        <Company>Geta</Company>
+        <Company>Geta Digital</Company>
         <Product>Geta.EmailNotification.SendGrid</Product>
     </PropertyGroup>
 

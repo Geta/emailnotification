@@ -5,10 +5,10 @@
         <RootNamespace>Geta.EmailNotification.Postmark</RootNamespace>
         <PackageId>Geta.EmailNotification.Postmark</PackageId>
         <Title>Geta.EmailNotification.Postmark</Title>
-        <Authors />
+        <Authors>Geta Digital</Authors>
         <Description>Email notification using Postmark</Description>
         <Copyright>Copyright Geta© 2021</Copyright>
-        <Company>Geta</Company>
+        <Company>Geta Digital</Company>
         <Product>Geta.EmailNotification.Postmark</Product>
     </PropertyGroup>
 
