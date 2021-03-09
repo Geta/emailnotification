@@ -5,14 +5,6 @@ namespace Geta.EmailNotification.Common
 {
     public abstract class EmailNotificationRequestBase
     {
-        protected EmailNotificationRequestBase()
-        {
-            Attachments = new AttachmentCollection();
-            To = new List<MailboxAddress>();
-            Cc = new List<MailboxAddress>();
-            Bcc = new List<MailboxAddress>();
-            ReplyTo = new List<MailboxAddress>();
-        }
         /// <summary>
         /// From email address
         /// </summary>
@@ -21,22 +13,22 @@ namespace Geta.EmailNotification.Common
         /// <summary>
         /// To email address'
         /// </summary>
-        public List<MailboxAddress> To { get; set; }
+        public List<MailboxAddress> To { get; set; } = new List<MailboxAddress>();
 
         /// <summary>
         /// Copy email address'
         /// </summary>
-        public List<MailboxAddress> Cc { get; set; }
+        public List<MailboxAddress> Cc { get; set; } = new List<MailboxAddress>();
 
         /// <summary>
         /// Blind copy email address'
         /// </summary>
-        public List<MailboxAddress> Bcc { get; set; }
+        public List<MailboxAddress> Bcc { get; set; } = new List<MailboxAddress>();
 
         /// <summary>
         /// Reply to email address'
         /// </summary>
-        public List<MailboxAddress> ReplyTo { get; set; }
+        public List<MailboxAddress> ReplyTo { get; set; } = new List<MailboxAddress>();
 
         public string Subject { get; set; }
 
@@ -63,6 +55,6 @@ namespace Geta.EmailNotification.Common
         /// <summary>
         /// Attachments for this email message
         /// </summary>
-        public AttachmentCollection Attachments { get; set; }
+        public AttachmentCollection Attachments { get; set; } = new AttachmentCollection();
     }
 }
