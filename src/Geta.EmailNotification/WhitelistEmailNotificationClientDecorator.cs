@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Geta.EmailNotification.Common;
 using MimeKit;
 
 namespace Geta.EmailNotification
@@ -18,7 +19,7 @@ namespace Geta.EmailNotification
             _whitelistConfiguration = whitelistConfiguration;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequestBase emailNotificationRequest)
         {
             if (emailNotificationRequest == null)
             {
@@ -42,7 +43,7 @@ namespace Geta.EmailNotification
             var result = new List<MailboxAddress>();
             foreach (var address in addressCollection)
             {
-                if (InWhitelist(address.Address))
+                if (InWhitelist(address.Name))
                 {
                     result.Add(address);
                 }

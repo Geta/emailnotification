@@ -1,5 +1,6 @@
 ﻿using Amazon.SimpleEmail.Model;
 using Geta.EmailNotification.Amazon.Extensions;
+using Geta.EmailNotification.Common;
 
 namespace Geta.EmailNotification.Amazon
 {
@@ -12,7 +13,7 @@ namespace Geta.EmailNotification.Amazon
             _mailMessageFactory = mailMessageFactory;
         }
         
-        public SendRawEmailRequest Create(EmailNotificationRequest request)
+        public SendRawEmailRequest Create(EmailNotificationRequestBase request)
         {
             return _mailMessageFactory.Create(request).ToAmazonMessage();
         }

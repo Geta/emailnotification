@@ -11,9 +11,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Mail
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Amazon", "src\Geta.EmailNotification.Amazon\Geta.EmailNotification.Amazon.csproj", "{7186886A-3A92-44BE-BF9D-4BFFD8AE1F48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification", "src\Geta.EmailNotification\Geta.EmailNotification.csproj", "{678EBAAC-D671-41B5-8141-4B083F2835B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Core", "src\Geta.EmailNotification.Core\Geta.EmailNotification.Core.csproj", "{678EBAAC-D671-41B5-8141-4B083F2835B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Tests", "test\Geta.EmailNotification.Tests\Geta.EmailNotification.Tests.csproj", "{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Core.Tests", "test\Geta.EmailNotification.Core.Tests\Geta.EmailNotification.Core.Tests.csproj", "{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Common", "src\Geta.EmailNotification.Common\Geta.EmailNotification.Common.csproj", "{12E98678-9A38-4187-B701-ED99068D4EF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification", "src\Geta.EmailNotification\Geta.EmailNotification.csproj", "{060C457E-B76F-4A81-85DC-DB3529B970FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.EmailNotification.Tests", "test\Geta.EmailNotification.Tests\Geta.EmailNotification.Tests.csproj", "{D2F92C70-D9BE-42F3-A6B9-1F9D3D533459}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,18 @@ Global
 		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57D3B33E-E155-4BD1-A095-C0A1BD1029CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12E98678-9A38-4187-B701-ED99068D4EF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E98678-9A38-4187-B701-ED99068D4EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E98678-9A38-4187-B701-ED99068D4EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E98678-9A38-4187-B701-ED99068D4EF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{060C457E-B76F-4A81-85DC-DB3529B970FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{060C457E-B76F-4A81-85DC-DB3529B970FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{060C457E-B76F-4A81-85DC-DB3529B970FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{060C457E-B76F-4A81-85DC-DB3529B970FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2F92C70-D9BE-42F3-A6B9-1F9D3D533459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2F92C70-D9BE-42F3-A6B9-1F9D3D533459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2F92C70-D9BE-42F3-A6B9-1F9D3D533459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2F92C70-D9BE-42F3-A6B9-1F9D3D533459}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using SendGrid.Helpers.Mail;
+﻿using Geta.EmailNotification.Common;
+using SendGrid.Helpers.Mail;
 
 namespace Geta.EmailNotification.SendGrid
 {
@@ -6,9 +7,9 @@ namespace Geta.EmailNotification.SendGrid
     {
         public SendGridMessageFactory(IEmailViewRenderer renderer) : base(renderer) { }
 
-        public SendGridMessage CreateSendGridMessage(EmailNotificationRequest notification)
+        public SendGridMessage CreateSendGridMessage(EmailNotificationRequestBase notification)
         {
-            var message = base.Create(notification);
+            var message = Create(notification);
             var sendGridMessage = message.ConvertToSendGridMessage();
 
             return sendGridMessage;
