@@ -289,9 +289,5 @@ services.AddScoped<IEmailViewRenderer, EmailViewRenderer>();
 Watch this tutorial to learn how to set up your sender signatures (link branding): [Sendgrid - Link branding](https://sendgrid.com/docs/User_Guide/Settings/Sender_authentication/How_to_set_up_link_branding.html)
 
 ## Package Maintainer
-https://github.com/digintsys
-
-https://github.com/marisks
-
-https://github.com/frederikvig
+https://github.com/winiarski91
 
