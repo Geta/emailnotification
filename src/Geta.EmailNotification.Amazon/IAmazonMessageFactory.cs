@@ -5,6 +5,6 @@ namespace Geta.EmailNotification.Amazon
 {
     public interface IAmazonMessageFactory
     {
-        SendRawEmailRequest Create(EmailNotificationRequestBase request);
+        SendRawEmailRequest Create(EmailNotificationRequest request);
     }
 }

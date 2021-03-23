@@ -7,7 +7,7 @@ namespace Geta.EmailNotification.SendGrid
     {
         public SendGridMessageFactory(IEmailViewRenderer renderer) : base(renderer) { }
 
-        public SendGridMessage CreateSendGridMessage(EmailNotificationRequestBase notification)
+        public SendGridMessage CreateSendGridMessage(EmailNotificationRequest notification)
         {
             var message = Create(notification);
             var sendGridMessage = message.ConvertToSendGridMessage();

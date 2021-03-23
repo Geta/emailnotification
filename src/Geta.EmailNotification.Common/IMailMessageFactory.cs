@@ -12,6 +12,6 @@ namespace Geta.EmailNotification.Common
         /// </summary>
         /// <param name="request">Email request data.</param>
         /// <returns>MIME message object from MimeKit package.</returns>
-        MimeMessage Create(EmailNotificationRequestBase request);
+        MimeMessage Create(EmailNotificationRequest request);
     }
 }

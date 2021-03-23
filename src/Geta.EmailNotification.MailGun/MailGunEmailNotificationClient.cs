@@ -22,7 +22,7 @@ namespace Geta.EmailNotification.MailGun
             _restClient = restClient;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequestBase emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Geta.EmailNotification.MailGun
                 };
             }
         }
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase emailNotificationRequest)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest emailNotificationRequest)
         {
             try
             {

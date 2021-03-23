@@ -44,6 +44,7 @@ namespace Geta.EmailNotification.Core.Tests.Controllers
                     .WithAttachment(attachment)
                     .WithViewName("Emails/Test")
                     .WithViewData("test","value")
+                    .WithViewData("test2", 44)
                     .Build();
 
                 results.Add(new EmailNotificationResponseViewModel

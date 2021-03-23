@@ -7,6 +7,6 @@
         /// </summary>
         /// <param name="request">Email request data</param>
         /// <returns>Email notification response data</returns>
-        EmailNotificationResponse Send(EmailNotificationRequestBase request);
+        EmailNotificationResponse Send(EmailNotificationRequest request);
     }
 }

@@ -19,7 +19,7 @@ namespace Geta.EmailNotification.Core
             _whitelistConfiguration = whitelistConfiguration;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequestBase emailNotificationRequest)
+        public EmailNotificationResponse Send(EmailNotificationRequest emailNotificationRequest)
         {
             if (emailNotificationRequest == null)
             {

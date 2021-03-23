@@ -13,7 +13,7 @@ namespace Geta.EmailNotification.Amazon
             _mailMessageFactory = mailMessageFactory;
         }
         
-        public SendRawEmailRequest Create(EmailNotificationRequestBase request)
+        public SendRawEmailRequest Create(EmailNotificationRequest request)
         {
             return _mailMessageFactory.Create(request).ToAmazonMessage();
         }

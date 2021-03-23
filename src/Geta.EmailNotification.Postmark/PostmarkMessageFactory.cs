@@ -13,7 +13,7 @@ namespace Geta.EmailNotification.Postmark
             _mailMessageFactory = mailMessageFactory;
         }
 
-        public PostmarkMessage Create(EmailNotificationRequestBase request)
+        public PostmarkMessage Create(EmailNotificationRequest request)
         {
             return _mailMessageFactory.Create(request).ToPostmarkMessage();
         }

@@ -5,6 +5,6 @@ namespace Geta.EmailNotification.MailGun
 {
     public interface IMailGunMessageFactory
     {
-        RestRequest Create(EmailNotificationRequestBase request);
+        RestRequest Create(EmailNotificationRequest request);
     }
 }
