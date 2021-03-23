@@ -18,7 +18,7 @@ namespace Geta.EmailNotification.SendGrid
             _mailMessageFactory = mailMessageFactory;
         }
 
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase request)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest request)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Geta.EmailNotification.SendGrid
             }
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequestBase request)
+        public EmailNotificationResponse Send(EmailNotificationRequest request)
         {
             try
             {

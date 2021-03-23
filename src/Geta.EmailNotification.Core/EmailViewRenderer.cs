@@ -35,7 +35,7 @@ namespace Geta.EmailNotification.Core
         /// </summary>
         /// <param name="email">The email to render.</param>
         /// <returns>The rendered email view output.</returns>
-        public string Render(EmailNotificationRequestBase email)
+        public string Render(EmailNotificationRequest email)
         {
             var viewName = email.ViewName;
             var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
@@ -49,11 +49,21 @@ namespace Geta.EmailNotification.Core
                 {
                     throw new ArgumentNullException($"{viewName} does not match any available view");
                 }
-     
-                var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+
+                var viewDictionary =
+                    new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+                    {
+                        Model = email
+                    };
+               
+                if (email.ViewData != null)
                 {
-                    Model = email
-                };
+                    foreach (var item in email.ViewData)
+                    {
+                        if(!viewDictionary.ContainsKey(item.Key))
+                            viewDictionary.Add(item);
+                    }
+                }
      
                 var viewContext = new ViewContext(
                     actionContext,

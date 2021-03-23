@@ -5,6 +5,6 @@ namespace Geta.EmailNotification.Postmark
 {
     public interface IPostmarkMessageFactory
     {
-        PostmarkMessage Create(EmailNotificationRequestBase request);
+        PostmarkMessage Create(EmailNotificationRequest request);
     }
 }

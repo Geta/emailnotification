@@ -1,5 +1,13 @@
 ﻿# Changelog
 
+## [4.0.1]
+
+### Fixed
+- Fix #25 missing ViewData
+
+### Changed
+- Remove EmailNotificationRequestBase class
+
 ## [4.0.0]
 
 ### Changed

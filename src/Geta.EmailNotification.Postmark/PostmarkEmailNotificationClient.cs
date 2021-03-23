@@ -19,7 +19,7 @@ namespace Geta.EmailNotification.Postmark
             _postmarkMessageFactory = postmarkMessageFactory;
         }
 
-        public EmailNotificationResponse Send(EmailNotificationRequestBase request)
+        public EmailNotificationResponse Send(EmailNotificationRequest request)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace Geta.EmailNotification.Postmark
             }
         }
 
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase request)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest request)
         {
             try
             {
