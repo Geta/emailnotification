@@ -55,6 +55,11 @@ namespace Geta.EmailNotification.Common
         /// Key/value collection for placeholders
         /// </summary>
         public IDictionary<string, object> ViewData { get; set; }
+        
+        /// <summary>
+        /// Model used in view
+        /// </summary>
+        public object Model { get; set; }
 
         /// <summary>
         /// Attachments for this email message

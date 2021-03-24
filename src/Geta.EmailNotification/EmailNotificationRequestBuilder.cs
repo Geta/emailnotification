@@ -284,6 +284,17 @@ namespace Geta.EmailNotification
             _request.Attachments.Add(attachment);
             return this;
         }
+        
+        /// <summary>
+        /// Sets Model value on ViewData. Model can be used in Razor view to render email.
+        /// </summary>
+        /// <param name="value">View model's value.</param>
+        /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
+        public EmailNotificationRequestBuilder WithViewModel(object value)
+        {
+            _request.Model = value;
+            return this;
+        }
 
         /// <summary>
         /// Adds multiple Attachment values to existing Attachment collection.
