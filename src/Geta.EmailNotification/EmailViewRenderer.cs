@@ -40,15 +40,12 @@ namespace Geta.EmailNotification
         { ;
             var controllerContext = CreateControllerContext();
             var view = CreateView(email.ViewName, controllerContext);
-            var viewData = new ViewDataDictionary(email);
-
-            if (email.ViewData != null)
+            var viewData = new ViewDataDictionary(email.Model ?? email);
+            
+            foreach (var item in email.ViewData)
             {
-                foreach (var item in email.ViewData)
-                {
-                    if(!viewData.ContainsKey(item.Key))
-                        viewData.Add(item);
-                }
+                if(!viewData.ContainsKey(item.Key))
+                    viewData.Add(item);
             }
 
             var viewOutput = RenderView(view, viewData, controllerContext);

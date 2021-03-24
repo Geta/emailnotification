@@ -53,18 +53,15 @@ namespace Geta.EmailNotification.Core
                 var viewDictionary =
                     new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
                     {
-                        Model = email
+                        Model = email.Model ?? email
                     };
-               
-                if (email.ViewData != null)
+
+                foreach (var item in email.ViewData)
                 {
-                    foreach (var item in email.ViewData)
-                    {
-                        if(!viewDictionary.ContainsKey(item.Key))
-                            viewDictionary.Add(item);
-                    }
+                    if(!viewDictionary.ContainsKey(item.Key))
+                        viewDictionary.Add(item);
                 }
-     
+
                 var viewContext = new ViewContext(
                     actionContext,
                     viewResult.View,
