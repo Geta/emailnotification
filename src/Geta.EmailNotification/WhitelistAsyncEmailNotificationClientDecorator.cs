@@ -20,7 +20,7 @@ namespace Geta.EmailNotification
             _whitelistConfiguration = whitelistConfiguration;
         }
 
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase emailNotificationRequest)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest emailNotificationRequest)
         {
             if (emailNotificationRequest == null)
             {

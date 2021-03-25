@@ -1,5 +1,14 @@
 ﻿# Changelog
 
+## [5.0.0]
+
+### Fixed
+- Fix #25 missing ViewData
+
+### Changed
+- Remove EmailNotificationRequestBase class
+- Change ViewData property to IDictionary<string, object>
+
 ## [4.0.0]
 
 ### Changed

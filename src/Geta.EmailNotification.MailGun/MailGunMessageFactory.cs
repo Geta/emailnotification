@@ -13,7 +13,7 @@ namespace Geta.EmailNotification.MailGun
             _mailMessageFactory = mailMessageFactory;
         }
         
-        public RestRequest Create(EmailNotificationRequestBase request)
+        public RestRequest Create(EmailNotificationRequest request)
         {
             return _mailMessageFactory.Create(request).ToRestRequest();
         }

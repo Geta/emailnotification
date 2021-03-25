@@ -21,7 +21,7 @@ namespace Geta.EmailNotification.Common
         /// </summary>
         /// <param name="request">Email request data</param>
         /// <returns>Email notification response data</returns>
-        public EmailNotificationResponse Send(EmailNotificationRequestBase request)
+        public EmailNotificationResponse Send(EmailNotificationRequest request)
         {
             var response = new EmailNotificationResponse();
 
@@ -48,7 +48,7 @@ namespace Geta.EmailNotification.Common
         /// </summary>
         /// <param name="request">Email request data</param>
         /// <returns>Email notification response data</returns>
-        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequestBase request)
+        public async Task<EmailNotificationResponse> SendAsync(EmailNotificationRequest request)
         {
             var response = new EmailNotificationResponse();
 

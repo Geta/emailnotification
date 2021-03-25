@@ -50,6 +50,31 @@ namespace Geta.EmailNotification.Tests.Controllers
                     .WithAttachment(attachment)
                     .WithViewName("Test")
                     .WithViewData("test","value")
+                    .WithViewData("test2", 44)
+                    .Build();
+            
+                results.Add(new EmailNotificationResponseViewModel
+                {
+                    NotificationResponse = await asyncClient.SendAsync(testEmail),
+                    AssemblyName = $"{asyncClient.ToString().Split('.').Last()}"
+                });
+            }
+
+            foreach (var asyncClient in _asyncClients)
+            {
+                var sampleViewModel = new SampleViewModel
+                {
+                    Id = 54345,
+                    Name = "test name",
+                    Url = "www.google.com"
+                };
+               
+                var testEmail = new EmailNotificationRequestBuilder()
+                    .WithTo("zbigniew.winiarski@getadigital.com")
+                    .WithFrom("zbigniew.winiarski@getadigital.com")
+                    .WithSubject($"Async test e-mail with sample view model using {asyncClient.ToString().Split('.').Last()}")
+                    .WithViewName("ViewWithSampleViewModel")
+                    .WithViewModel(sampleViewModel)
                     .Build();
 
                 results.Add(new EmailNotificationResponseViewModel
@@ -67,7 +92,7 @@ namespace Geta.EmailNotification.Tests.Controllers
                     .WithSubject($"Sync test e-mail using {syncClient.ToString().Split('.').Last()}")
                     .Build();
                 testEmail.HtmlBody = new HtmlString("This is a test email <strong>using HtmlBody</strong>.").ToString();
-
+            
                 results.Add(new EmailNotificationResponseViewModel
                 {
                     NotificationResponse = syncClient.Send(testEmail),

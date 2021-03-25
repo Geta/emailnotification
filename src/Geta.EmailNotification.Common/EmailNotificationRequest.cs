@@ -3,8 +3,12 @@ using MimeKit;
 
 namespace Geta.EmailNotification.Common
 {
-    public abstract class EmailNotificationRequestBase
+    public class EmailNotificationRequest
     {
+        public EmailNotificationRequest()
+        {
+            ViewData = new Dictionary<string, object>();
+        }
         /// <summary>
         /// From email address
         /// </summary>
@@ -50,7 +54,12 @@ namespace Geta.EmailNotification.Common
         /// <summary>
         /// Key/value collection for placeholders
         /// </summary>
-        public virtual IDictionary<string, object> ViewData { get; set; }
+        public IDictionary<string, object> ViewData { get; set; }
+        
+        /// <summary>
+        /// Model used in view
+        /// </summary>
+        public object Model { get; set; }
 
         /// <summary>
         /// Attachments for this email message

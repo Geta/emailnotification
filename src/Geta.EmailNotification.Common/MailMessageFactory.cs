@@ -22,7 +22,7 @@ namespace Geta.EmailNotification.Common
         /// </summary>
         /// <param name="request">Email request data.</param>
         /// <returns>MIME message object from MimeKit package.</returns>
-        public MimeMessage Create(EmailNotificationRequestBase request)
+        public MimeMessage Create(EmailNotificationRequest request)
         {
             if (request == null)
             {
@@ -81,7 +81,7 @@ namespace Geta.EmailNotification.Common
             }
         }
 
-        private string CreateBody(EmailNotificationRequestBase request, out bool isHtml)
+        private string CreateBody(EmailNotificationRequest request, out bool isHtml)
         {
             isHtml = true;
             if (!string.IsNullOrWhiteSpace(request.ViewName))

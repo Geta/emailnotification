@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="email">The email data to pass to the view.</param>
         /// <returns>The string result of rendering the email.</returns>
-        string Render(EmailNotificationRequestBase email);
+        string Render(EmailNotificationRequest email);
     }
 }

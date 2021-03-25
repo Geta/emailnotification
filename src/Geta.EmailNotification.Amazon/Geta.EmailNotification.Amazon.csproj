@@ -9,7 +9,7 @@
         <Description>Email notification using Amazon SES</Description>
         <Copyright>Copyright Geta© 2021</Copyright>
         <Company>Geta Digital</Company>
-        <PackageVersion>4.0.0</PackageVersion>
+        <PackageVersion>5.0.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>

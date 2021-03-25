@@ -36,11 +36,18 @@ namespace Geta.EmailNotification
         /// </summary>
         /// <param name="email">The email to render.</param>
         /// <returns>The rendered email view output.</returns>
-        public string Render(EmailNotificationRequestBase email)
+        public string Render(EmailNotificationRequest email)
         { ;
             var controllerContext = CreateControllerContext();
             var view = CreateView(email.ViewName, controllerContext);
-            var viewData = new ViewDataDictionary(email);
+            var viewData = new ViewDataDictionary(email.Model ?? email);
+            
+            foreach (var item in email.ViewData)
+            {
+                if(!viewData.ContainsKey(item.Key))
+                    viewData.Add(item);
+            }
+
             var viewOutput = RenderView(view, viewData, controllerContext);
             return viewOutput;
         }

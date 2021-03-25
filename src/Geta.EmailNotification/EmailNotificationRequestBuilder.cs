@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Geta.EmailNotification.Common;
 using MimeKit;
 
 namespace Geta.EmailNotification
@@ -265,23 +265,12 @@ namespace Geta.EmailNotification
         /// </summary>
         /// <param name="dictionary">Dictionary of ViewData values.</param>
         /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
-        public EmailNotificationRequestBuilder WithViewData(ViewDataDictionary dictionary)
+        public EmailNotificationRequestBuilder WithViewData(IDictionary<string, object> dictionary)
         {
             foreach (var pair in dictionary)
             {
                 _request.ViewData.Add(pair);
             }
-            return this;
-        }
-
-        /// <summary>
-        /// Sets Model value on ViewData. Model can be used in Razor view to render email.
-        /// </summary>
-        /// <param name="value">View model's value.</param>
-        /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
-        public EmailNotificationRequestBuilder WithViewModel(object value)
-        {
-            _request.ViewData.Model = value;
             return this;
         }
 
@@ -293,6 +282,17 @@ namespace Geta.EmailNotification
         public EmailNotificationRequestBuilder WithAttachment(MimeEntity attachment)
         {
             _request.Attachments.Add(attachment);
+            return this;
+        }
+        
+        /// <summary>
+        /// Sets Model value on ViewData. Model can be used in Razor view to render email.
+        /// </summary>
+        /// <param name="value">View model's value.</param>
+        /// <returns>Current EmailNotificationRequestBuilder instance.</returns>
+        public EmailNotificationRequestBuilder WithViewModel(object value)
+        {
+            _request.Model = value;
             return this;
         }
 
