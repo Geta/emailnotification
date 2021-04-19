@@ -26,13 +26,13 @@ namespace Geta.EmailNotification.Tests.DependencyResolution
 
             For<IEmailViewRenderer>().Use(() => new EmailViewRenderer(new ViewEngineCollection { new RazorViewEngine() }));
             For<IMailMessageFactory>().Use<MailMessageFactory>();
-            For<IPostmarkMessageFactory>().Use<PostmarkMessageFactory>();
+            // For<IPostmarkMessageFactory>().Use<PostmarkMessageFactory>();
             For<IAmazonMessageFactory>().Use<AmazonMessageFactory>();
             // For<IAsyncEmailNotificationClient>().Use<SendGridEmailNotificationClient>();
             // For<IAsyncEmailNotificationClient>().Use<PostmarkEmailNotificationClient>();
             For<IAsyncEmailNotificationClient>().Use<AmazonEmailNotificationClient>();
             // For<IAsyncEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
-            
+            For<SmtpEmailNotificationClient>().Use<SmtpEmailNotificationClient>();
             // For<IEmailNotificationClient>().Use<SendGridEmailNotificationClient>();
             // For<IEmailNotificationClient>().Use<PostmarkEmailNotificationClient>();
             // For<IEmailNotificationClient>().Use<MailGunEmailNotificationClient>();
@@ -50,6 +50,13 @@ namespace Geta.EmailNotification.Tests.DependencyResolution
                 new MailGunCredentials("api_key","api_base_url"));
             For<ISendGridClient>().Use(ctx => 
                 new SendGridClient("api_key", "https://api.sendgrid.com", null,"v3", "/mail/send"));
+            For<SmtpConfiguration>().Use(ctx => new SmtpConfiguration
+            {
+                Host = "smtp.sendgrid.net",
+                Port = 25,
+                Username = "apikey",
+                Password = "apikey"
+            });
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 
@@ -10,10 +12,12 @@ namespace Geta.EmailNotification.Common
     public class SmtpEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {
         private readonly IMailMessageFactory _mailMessageFactory;
+        private readonly SmtpConfiguration _smtpConfiguration;
 
-        public SmtpEmailNotificationClient(IMailMessageFactory mailMessageFactory)
+        public SmtpEmailNotificationClient(IMailMessageFactory mailMessageFactory, SmtpConfiguration smtpConfiguration)
         {
             _mailMessageFactory = mailMessageFactory;
+            _smtpConfiguration = smtpConfiguration;
         }
 
         /// <summary>
@@ -30,14 +34,22 @@ namespace Geta.EmailNotification.Common
                 var mail = _mailMessageFactory.Create(request);
                 using (var client = new SmtpClient())
                 {
+                    client.Connect(_smtpConfiguration.Host, _smtpConfiguration.Port, _smtpConfiguration.UseSsl);
+                    if (_smtpConfiguration.UseAuthentication)
+                    {
+                        client.Authenticate(_smtpConfiguration.Username, _smtpConfiguration.Password);
+                    }
                     client.Send(mail);
+                    client.Disconnect (true);
                 }
 
                 response.IsSent = true;
             }
             catch (Exception e)
             {
-                response.Message = $"Email failed to: {request.To}. Subject: {request.Subject} Error {e.Message}.";
+                var emails = request?.To.Select(x => x.Address) ?? new List<string>();
+                var emailsSerialized = string.Join(",", emails);
+                response.Message = $"Email failed to: {emailsSerialized}. Subject: {request?.Subject} Error {e.Message}.";
             }
 
             return response;
@@ -57,14 +69,22 @@ namespace Geta.EmailNotification.Common
                 var mail = _mailMessageFactory.Create(request);
                 using (var client = new SmtpClient())
                 {
+                    await client.ConnectAsync(_smtpConfiguration.Host, _smtpConfiguration.Port, _smtpConfiguration.UseSsl);
+                    if (_smtpConfiguration.UseAuthentication)
+                    {
+                        await client.AuthenticateAsync(_smtpConfiguration.Username, _smtpConfiguration.Password);
+                    }
                     await client.SendAsync(mail).ConfigureAwait(false);
+                    await client.DisconnectAsync(true);
                 }
 
                 response.IsSent = true;
             }
             catch (Exception e)
             {
-                response.Message = $"Email failed to: {request.To}. Subject: {request.Subject} Error {e.Message}.";
+                var emails = request?.To.Select(x => x.Address) ?? new List<string>();
+                var emailsSerialized = string.Join(",", emails);
+                response.Message = $"Email failed to: {emailsSerialized}. Subject: {request?.Subject} Error {e.Message}.";
             }
 
             return response;

@@ -41,12 +41,12 @@ namespace Geta.EmailNotification.MailGun
             }
             catch (Exception ex)
             {
-                var emails = emailNotificationRequest.To?.Select(s => s?.Address);
+                var emails = emailNotificationRequest?.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
 
                 return new EmailNotificationResponse
                 {
-                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject} " +
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest?.Subject} " +
                               $"Error: {ex.Message}. Stacktrace: {ex.StackTrace}"
                 };
             }
@@ -70,12 +70,12 @@ namespace Geta.EmailNotification.MailGun
             }
             catch (Exception ex)
             {
-                var emails = emailNotificationRequest.To?.Select(s => s?.Address);
+                var emails = emailNotificationRequest?.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
 
                 return new EmailNotificationResponse
                 {
-                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest.Subject} " +
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {emailNotificationRequest?.Subject} " +
                               $"Error: {ex.Message}. Stacktrace: {ex.StackTrace}"
                 };
             }
