@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 
@@ -37,7 +39,9 @@ namespace Geta.EmailNotification.Common
             }
             catch (Exception e)
             {
-                response.Message = $"Email failed to: {request.To}. Subject: {request.Subject} Error {e.Message}.";
+                var emails = request?.To.Select(x => x.Address) ?? new List<string>();
+                var emailsSerialized = string.Join(",", emails);
+                response.Message = $"Email failed to: {emailsSerialized}. Subject: {request?.Subject} Error {e.Message}.";
             }
 
             return response;
@@ -64,7 +68,9 @@ namespace Geta.EmailNotification.Common
             }
             catch (Exception e)
             {
-                response.Message = $"Email failed to: {request.To}. Subject: {request.Subject} Error {e.Message}.";
+                var emails = request?.To.Select(x => x.Address) ?? new List<string>();
+                var emailsSerialized = string.Join(",", emails);
+                response.Message = $"Email failed to: {emailsSerialized}. Subject: {request?.Subject} Error {e.Message}.";
             }
 
             return response;
