@@ -173,7 +173,7 @@ client.Send(email);
 ### Creating EmailNotificationRequest using EmailNotificationRequestBuilder.
 
 ```csharp
-var client = new SmtpEmailNotificationClient(emailViewRenderer);
+var client = new SmtpEmailNotificationClient(emailViewRenderer, smtpConfiguration);
 var email = new EmailNotificationRequestBuilder()
                 .WithTo("frederik@geta.no")
                 .WithFrom("no-reply@example.com")
@@ -191,7 +191,7 @@ client.Send(email);
 ### Reusing existing EmailNotificationRequestBuilder with EmailNotificationRequestBuilder.
 
 ```csharp
-var client = new SmtpEmailNotificationClient(emailViewRenderer);
+var client = new SmtpEmailNotificationClient(emailViewRenderer, smtpConfiguration);
 var template = new EmailNotificationRequestBuilder()
                 .WithSubject("This is template")
                 .WithFrom("no-reply@example.com")
@@ -229,6 +229,22 @@ Next step, configure a whitelist in the _appSettings.json_. Add an item with a k
 ```
 "EmailNotification:Whitelist": "test@getadigital.com"
 ```
+## SMTP Configuration
+When using the SmtpEmailNotificationClient you need to configure it in Startup.cs.
+
+```csharp
+services.AddScoped<SmtpEmailNotificationClient, SmtpEmailNotificationClient>();
+services.AddScoped<IAsyncEmailNotificationClient, AmazonEmailNotificationClient>();
+services.AddScoped<IEmailNotificationClient, AmazonEmailNotificationClient>();
+services.AddScoped(ctx => new SmtpConfiguration
+            {
+                Host = "smtp.sendgrid.net",
+                Port = <port>,
+                Username = "api_username",
+                Password = "api_key"
+            });
+```
+
 
 ## Amazon
 When using the Amazon library you need to configure it in Startup.cs.

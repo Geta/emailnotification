@@ -15,18 +15,22 @@ namespace Geta.EmailNotification.Core.Tests.Controllers
     {
         private readonly IEnumerable<IAsyncEmailNotificationClient> _asyncClients;
         private readonly IEnumerable<IEmailNotificationClient> _syncClients;
+        private readonly SmtpEmailNotificationClient _smtpEmailNotificationClient;
 
         public HomeController(IEnumerable<IAsyncEmailNotificationClient> asyncClients, 
-            IEnumerable<IEmailNotificationClient> syncClients)
+            IEnumerable<IEmailNotificationClient> syncClients, SmtpEmailNotificationClient smtpEmailNotificationClient)
         {
             _asyncClients = asyncClients;
             _syncClients = syncClients;
+            _smtpEmailNotificationClient = smtpEmailNotificationClient;
         }
 
         public async Task<IActionResult> Index()
         {
             var results = new List<EmailNotificationResponseViewModel>();
-                
+            
+            results.AddRange(await SendBySmtpClient());
+
             foreach (var asyncClient in _asyncClients)
             {
                 var stream = StreamHelper.GenerateStreamFromString("This is a test text.");
@@ -70,14 +74,14 @@ namespace Geta.EmailNotification.Core.Tests.Controllers
                     .WithViewName("Emails/ViewWithSampleViewModel")
                     .WithViewModel(sampleViewModel)
                     .Build();
-
+            
                 results.Add(new EmailNotificationResponseViewModel
                 {
                     NotificationResponse = await asyncClient.SendAsync(testEmail),
                     AssemblyName = $"{asyncClient.ToString().Split('.').Last()}"
                 });
             }
-
+            
             foreach (var syncClient in _syncClients)
             {
                 var testEmail = new EmailNotificationRequestBuilder()
@@ -95,6 +99,38 @@ namespace Geta.EmailNotification.Core.Tests.Controllers
             }
 
             return View(results);
+        }
+
+        private async Task<List<EmailNotificationResponseViewModel>> SendBySmtpClient()
+        {
+            var results = new List<EmailNotificationResponseViewModel>();
+            var vm = new SampleViewModel
+            {
+                Id = 54345,
+                Name = "test name",
+                Url = "www.google.com"
+            };
+            var smtpTest = new EmailNotificationRequestBuilder()
+                .WithTo("zbigniew.winiarski@getadigital.com")
+                .WithFrom("zbigniew.winiarski@getadigital.com")
+                .WithSubject("Test e-mail with sample view model using SMTP client")
+                .WithViewName("Emails/ViewWithSampleViewModel")
+                .WithViewModel(vm)
+                .Build();
+
+            results.Add(new EmailNotificationResponseViewModel
+            {
+                NotificationResponse = _smtpEmailNotificationClient.Send(smtpTest),
+                AssemblyName = $"{_smtpEmailNotificationClient.ToString().Split('.').Last()}"
+            });
+            
+            results.Add(new EmailNotificationResponseViewModel
+            {
+                NotificationResponse = await _smtpEmailNotificationClient.SendAsync(smtpTest),
+                AssemblyName = $"{_smtpEmailNotificationClient.ToString().Split('.').Last()}"
+            });
+            
+            return results;
         }
 
         public IActionResult Privacy()

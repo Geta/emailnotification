@@ -12,10 +12,12 @@ namespace Geta.EmailNotification.Common
     public class SmtpEmailNotificationClient : IEmailNotificationClient, IAsyncEmailNotificationClient
     {
         private readonly IMailMessageFactory _mailMessageFactory;
+        private readonly SmtpConfiguration _smtpConfiguration;
 
-        public SmtpEmailNotificationClient(IMailMessageFactory mailMessageFactory)
+        public SmtpEmailNotificationClient(IMailMessageFactory mailMessageFactory, SmtpConfiguration smtpConfiguration)
         {
             _mailMessageFactory = mailMessageFactory;
+            _smtpConfiguration = smtpConfiguration;
         }
 
         /// <summary>
@@ -32,7 +34,13 @@ namespace Geta.EmailNotification.Common
                 var mail = _mailMessageFactory.Create(request);
                 using (var client = new SmtpClient())
                 {
+                    client.Connect(_smtpConfiguration.Host, _smtpConfiguration.Port, _smtpConfiguration.UseSsl);
+                    if (_smtpConfiguration.UseAuthentication)
+                    {
+                        client.Authenticate(_smtpConfiguration.Username, _smtpConfiguration.Password);
+                    }
                     client.Send(mail);
+                    client.Disconnect (true);
                 }
 
                 response.IsSent = true;
@@ -61,7 +69,13 @@ namespace Geta.EmailNotification.Common
                 var mail = _mailMessageFactory.Create(request);
                 using (var client = new SmtpClient())
                 {
+                    await client.ConnectAsync(_smtpConfiguration.Host, _smtpConfiguration.Port, _smtpConfiguration.UseSsl);
+                    if (_smtpConfiguration.UseAuthentication)
+                    {
+                        await client.AuthenticateAsync(_smtpConfiguration.Username, _smtpConfiguration.Password);
+                    }
                     await client.SendAsync(mail).ConfigureAwait(false);
+                    await client.DisconnectAsync(true);
                 }
 
                 response.IsSent = true;
