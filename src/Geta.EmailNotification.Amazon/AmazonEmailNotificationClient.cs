@@ -33,12 +33,12 @@ namespace Geta.EmailNotification.Amazon
             }
             catch (Exception ex)
             {
-                var emails = request.To?.Select(s => s?.Address);
+                var emails = request?.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
 
                 return new EmailNotificationResponse
                 {
-                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} " +
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request?.Subject} " +
                               $"Error: {ex.Message}. Stacktrace: {ex.StackTrace}"
                 };
             }
@@ -59,12 +59,12 @@ namespace Geta.EmailNotification.Amazon
             }
             catch (Exception ex)
             {
-                var emails = request.To?.Select(s => s?.Address);
+                var emails = request?.To?.Select(s => s?.Address);
                 var emailsSerialized = emails != null ? string.Join(", ", emails) : string.Empty;
 
                 return new EmailNotificationResponse
                 {
-                    Message = $"Email failed to: {emailsSerialized}. Subject: {request.Subject} " +
+                    Message = $"Email failed to: {emailsSerialized}. Subject: {request?.Subject} " +
                               $"Error: {ex.Message}. Stacktrace: {ex.StackTrace}"
                 };
             }

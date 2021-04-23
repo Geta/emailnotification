@@ -1,5 +1,11 @@
 ﻿# Changelog
 
+## [5.0.1]
+
+### Fixed
+- Fix #32 SmtpEmailNotificationClient always fails with exception
+- Fix #33 To in log is not correctly output
+
 ## [5.0.0]
 
 ### Fixed
