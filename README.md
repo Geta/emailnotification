@@ -233,9 +233,8 @@ Next step, configure a whitelist in the _appSettings.json_. Add an item with a k
 When using the SmtpEmailNotificationClient you need to configure it in Startup.cs.
 
 ```csharp
+services.AddScoped<IMailMessageFactory, MailMessageFactory>();
 services.AddScoped<SmtpEmailNotificationClient, SmtpEmailNotificationClient>();
-services.AddScoped<IAsyncEmailNotificationClient, AmazonEmailNotificationClient>();
-services.AddScoped<IEmailNotificationClient, AmazonEmailNotificationClient>();
 services.AddScoped(ctx => new SmtpConfiguration
             {
                 Host = "smtp.sendgrid.net",
@@ -243,6 +242,16 @@ services.AddScoped(ctx => new SmtpConfiguration
                 Username = "api_username",
                 Password = "api_key"
             });
+```
+
+## File System Notification Client Configuration
+When using the FileSystemEmailNotificationClient you need to configure it in Startup.cs.
+
+```csharp
+For<IAsyncEmailNotificationClient>().Use(ctx => 
+                new FileSystemEmailNotificationClient(ctx.GetInstance<IMailMessageFactory>(),@"C:\test"));
+For<IEmailNotificationClient>().Use(ctx => 
+                new FileSystemEmailNotificationClient(ctx.GetInstance<IMailMessageFactory>(), @"C:\test"));
 ```
 
 
