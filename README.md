@@ -254,7 +254,6 @@ For<IEmailNotificationClient>().Use(ctx =>
                 new FileSystemEmailNotificationClient(ctx.GetInstance<IMailMessageFactory>(), @"C:\test"));
 ```
 
-
 ## Amazon
 When using the Amazon library you need to configure it in Startup.cs.
 
