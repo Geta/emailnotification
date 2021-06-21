@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## [5.0.2]
+
+### Added
+- Add FileSystemEmailNotificationClient for saving emails on disk
+
 ## [5.0.1]
 
 ### Fixed
